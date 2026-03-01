@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"sbb-tui/views"
+	"github.com/necrom4/sbb-tui/views"
 
 	tea "github.com/charmbracelet/bubbletea"
 )

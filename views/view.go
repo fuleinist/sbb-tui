@@ -6,9 +6,9 @@ import (
 	"strings"
 	"time"
 
-	"sbb-tui/api"
-	"sbb-tui/models"
-	"sbb-tui/utils"
+	"github.com/necrom4/sbb-tui/api"
+	"github.com/necrom4/sbb-tui/models"
+	"github.com/necrom4/sbb-tui/utils"
 
 	"github.com/charmbracelet/bubbles/textinput"
 	tea "github.com/charmbracelet/bubbletea"

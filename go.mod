@@ -1,4 +1,4 @@
-module sbb-tui
+module github.com/necrom4/sbb-tui
 
 go 1.25.5
 

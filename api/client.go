@@ -9,8 +9,8 @@ import (
 	"strconv"
 	"strings"
 
-	"sbb-tui/models"
-	"sbb-tui/utils"
+	"github.com/necrom4/sbb-tui/models"
+	"github.com/necrom4/sbb-tui/utils"
 )
 
 func FetchConnections(from, to, date, timeStr string, isArrivalTime bool, limit int) ([]models.Connection, error) {
