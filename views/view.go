@@ -10,6 +10,7 @@ import (
 	"github.com/necrom4/sbb-tui/models"
 	"github.com/necrom4/sbb-tui/utils"
 
+	"github.com/charmbracelet/bubbles/key"
 	"github.com/charmbracelet/bubbles/textinput"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
@@ -110,6 +111,12 @@ type DataMsg struct {
 	err         error
 }
 
+type SuggestionsMsg struct {
+	inputIndex int
+	names      []string
+	err        error
+}
+
 type model struct {
 	width, height int
 	tabIndex      int
@@ -118,9 +125,11 @@ type model struct {
 	inputs        []textinput.Model
 	isArrivalTime bool
 	connections   []models.Connection
-	loading       bool
-	errorMsg      string
-	searched      bool
+	loading        bool
+	errorMsg       string
+	searched       bool
+	lastFromQuery  string
+	lastToQuery    string
 }
 
 func InitialModel() model {
@@ -148,10 +157,14 @@ func InitialModel() model {
 		case 0:
 			t.Placeholder = "From"
 			t.Prompt = " "
+			t.ShowSuggestions = true
+			t.KeyMap.AcceptSuggestion = key.NewBinding(key.WithKeys("right"))
 			t.Focus()
 		case 1:
 			t.Placeholder = "To"
 			t.Prompt = " "
+			t.ShowSuggestions = true
+			t.KeyMap.AcceptSuggestion = key.NewBinding(key.WithKeys("right"))
 		case 2:
 			t.Placeholder = now.Format("2006-01-02")
 			t.Prompt = " "
@@ -258,6 +271,12 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				m.resultIndex++
 			}
 		}
+
+	case SuggestionsMsg:
+		if msg.err == nil {
+			m.inputs[msg.inputIndex].SetSuggestions(msg.names)
+		}
+		return m, nil
 
 	case DataMsg:
 		m.loading = false
@@ -417,6 +436,25 @@ func (m *model) updateInputs(msg tea.Msg) tea.Cmd {
 	for i := range m.inputs {
 		m.inputs[i], cmds[i] = m.inputs[i].Update(msg)
 	}
+
+	// Trigger suggestion fetches for from/to inputs when value changes
+	if fromVal := m.inputs[0].Value(); fromVal != m.lastFromQuery {
+		m.lastFromQuery = fromVal
+		if len(fromVal) >= 2 {
+			cmds = append(cmds, fetchSuggestionsCmd(0, fromVal))
+		} else {
+			m.inputs[0].SetSuggestions(nil)
+		}
+	}
+	if toVal := m.inputs[1].Value(); toVal != m.lastToQuery {
+		m.lastToQuery = toVal
+		if len(toVal) >= 2 {
+			cmds = append(cmds, fetchSuggestionsCmd(1, toVal))
+		} else {
+			m.inputs[1].SetSuggestions(nil)
+		}
+	}
+
 	return tea.Batch(cmds...)
 }
 
@@ -428,6 +466,13 @@ func (m model) validateInputs() string {
 		return "Please enter an arrival station."
 	}
 	return ""
+}
+
+func fetchSuggestionsCmd(inputIndex int, query string) tea.Cmd {
+	return func() tea.Msg {
+		names, err := api.FetchLocations(query)
+		return SuggestionsMsg{inputIndex: inputIndex, names: names, err: err}
+	}
 }
 
 func (m model) searchCmd() tea.Cmd {
@@ -464,7 +509,11 @@ func (m model) renderHeaderItem(idx int) string {
 	}
 
 	if item.kind == KindInput {
-		return style.Render(m.inputs[item.index].View())
+		input := m.inputs[item.index]
+		if input.ShowSuggestions {
+			style = style.Width(lipgloss.Width(input.Prompt) + input.Width)
+		}
+		return style.Render(input.View())
 	}
 
 	icon := " "

@@ -13,6 +13,35 @@ import (
 	"github.com/necrom4/sbb-tui/utils"
 )
 
+type locationsResponse struct {
+	Stations []struct {
+		Name string `json:"name"`
+	} `json:"stations"`
+}
+
+func FetchLocations(query string) ([]string, error) {
+	apiURL := "https://transport.opendata.ch/v1/locations?type=station&query=" + url.QueryEscape(query)
+
+	resp, err := http.Get(apiURL)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	var result locationsResponse
+	if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
+		return nil, err
+	}
+
+	names := make([]string, 0, len(result.Stations))
+	for _, s := range result.Stations {
+		if s.Name != "" {
+			names = append(names, s.Name)
+		}
+	}
+	return names, nil
+}
+
 func FetchConnections(from, to, date, timeStr string, isArrivalTime bool, limit int) ([]models.Connection, error) {
 	parts := []string{
 		fmt.Sprintf("from=%s", url.QueryEscape(from)),
