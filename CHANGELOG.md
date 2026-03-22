@@ -1,3 +1,11 @@
+## [1.2.1](https://github.com/Necrom4/sbb-tui/compare/v1.2.0...v1.2.1) (2026-03-22)
+
+
+### Bug Fixes
+
+* prevent index out of range panic in date input ([4a67fa5](https://github.com/Necrom4/sbb-tui/commit/4a67fa52f3ace4f10495ca05023ae34a3443163c)), closes [#1](https://github.com/Necrom4/sbb-tui/issues/1)
+* prevent index out of range panic in date input ([a220f6f](https://github.com/Necrom4/sbb-tui/commit/a220f6fe9267e8650d8e1d7e1bd5d6fac819d6ac))
+
 # [1.2.0](https://github.com/Necrom4/sbb-tui/compare/v1.1.0...v1.2.0) (2026-03-09)
 
 
