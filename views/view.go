@@ -283,7 +283,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 	case tea.WindowSizeMsg:
 		m.width, m.height = msg.Width, msg.Height
-		inputWidth := (m.width - hdrElmtPadd - hdrMinWidth) / 2
+		inputWidth := max((m.width-hdrElmtPadd-hdrMinWidth)/2, 1)
 		m.inputs[0].Width = inputWidth
 		m.inputs[1].Width = inputWidth
 
@@ -690,7 +690,7 @@ func (m model) renderStartScreen() string {
 
 	block := lipgloss.JoinVertical(lipgloss.Center, text, "", coloredLogo)
 
-	width := m.contentWidth() - borderSize - (rsltMrgn * 2)
+	width := max(m.contentWidth()-borderSize-(rsltMrgn*2), 0)
 	height := m.resultsHeight()
 
 	return lipgloss.Place(width, height, lipgloss.Center, lipgloss.Center, block)
@@ -701,13 +701,13 @@ func (m model) renderDetailedResult() string {
 		return ""
 	}
 
-	boxWidth := m.width - borderSize*4 - m.resultBoxWidth()
+	boxWidth := max(m.width-borderSize*4-m.resultBoxWidth(), 0)
 	return m.renderFullConnection(m.connections[m.resultIndex], boxWidth)
 }
 
 func (m model) renderFullConnection(c models.Connection, width int) string {
 	var lines []string
-	innerWidth := width - borderSize - (fullConnPaddH * 2)
+	innerWidth := max(width-borderSize-(fullConnPaddH*2), 0)
 
 	for i, section := range c.Sections {
 		isFirst := i == 0
@@ -725,7 +725,7 @@ func (m model) renderFullConnection(c models.Connection, width int) string {
 	}
 
 	content := strings.Join(lines, "\n")
-	boxHeight := m.resultsHeight() - borderSize - (fullConnPaddV * 2)
+	boxHeight := max(m.resultsHeight()-borderSize-(fullConnPaddV*2), 0)
 	return detailedResultStyle.Width(width).Height(boxHeight).Render(content)
 }
 
