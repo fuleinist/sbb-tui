@@ -632,11 +632,11 @@ func (m model) renderHeader() string {
 
 func (m model) renderHelpBar() string {
 	keys := []struct{ key, desc string }{
-		{m.icons.keyTab, "navigate header"},
+		{m.icons.keyTab, "navigate"},
 		{m.icons.keyEnter, "search"},
 		{m.icons.keySpace, "toggle"},
-		{m.icons.keyUpDw, "select result"},
-		{m.icons.keyRight, "complete suggestion"},
+		{m.icons.keyUpDw, "results"},
+		{m.icons.keyRight, "complete"},
 		{m.icons.keyEsc, "quit"},
 	}
 
