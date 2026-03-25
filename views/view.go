@@ -46,10 +46,8 @@ const (
 	fullConnPaddH = 3
 	fullConnPaddV = 1
 
-	// Minimum input width per From/To field so the header is still usable.
-	minInputWidth = 10
-
-	minTermHeight = hdrHeight + borderSize + helpBarHeight + borderSize + smplConnHeight
+	minTermWidth  = 80
+	minTermHeight = 24
 )
 
 var (
@@ -399,13 +397,9 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	return m, cmd
 }
 
-func (m model) minTermWidth() int {
-	return m.headerFixedWidth() + 2*minInputWidth
-}
-
 func (m model) View() string {
-	if m.width < m.minTermWidth() || m.height < minTermHeight {
-		minW := m.minTermWidth()
+	if m.width < minTermWidth || m.height < minTermHeight {
+		minW := minTermWidth
 		msg := fmt.Sprintf("Terminal too small (%dx%d)\nMinimum size: %dx%d", m.width, m.height, minW, minTermHeight)
 		return lipgloss.Place(m.width, m.height, lipgloss.Center, lipgloss.Center,
 			noStyle.Foreground(sbbRed).Bold(true).Render(msg))
@@ -772,7 +766,6 @@ func (m model) renderJourneySection(section models.Section, width int, isFirst, 
 	const timeCol = 5
 	const delayCol = 4
 	const symbolCol = 5
-	const platformCol = 10
 
 	depTime := section.Departure.Departure.Local().Format("15:04")
 	depDelay := section.Departure.Delay
