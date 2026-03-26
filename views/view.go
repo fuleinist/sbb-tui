@@ -250,20 +250,22 @@ func InitialModel(cfg Config) model {
 				t.SetValue(cfg.To)
 			}
 		case 2:
-			t.Placeholder = now.Format("2006-01-02")
 			t.Prompt = m.icons.prompt
 			t.CharLimit = 10
 			t.Width = t.CharLimit
 			if cfg.Date != "" {
 				t.SetValue(cfg.Date)
+			} else {
+				t.SetValue(now.Format("2006-01-02"))
 			}
 		case 3:
-			t.Placeholder = now.Format("15:04")
 			t.Prompt = m.icons.prompt
 			t.CharLimit = 5
 			t.Width = t.CharLimit
 			if cfg.Time != "" {
 				t.SetValue(cfg.Time)
+			} else {
+				t.SetValue(now.Format("15:04"))
 			}
 		}
 		m.inputs[i] = t
