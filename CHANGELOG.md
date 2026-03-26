@@ -1,3 +1,10 @@
+## [1.5.1](https://github.com/Necrom4/sbb-tui/compare/v1.5.0...v1.5.1) (2026-03-26)
+
+
+### Bug Fixes
+
+* **api:** debounce autosuggestion API call ([eceaf0f](https://github.com/Necrom4/sbb-tui/commit/eceaf0f6211c0cf14b2f702d9f68883e0f0a218c))
+
 # [1.5.0](https://github.com/Necrom4/sbb-tui/compare/v1.4.0...v1.5.0) (2026-03-26)
 
 
