@@ -62,3 +62,5 @@ Flags:
 - [ ] Scroll icons as hint in border of scrollable detailedRender window
 - [ ] Only autocomplete with cursor at last character, otherwise move cursor right
 - [ ] Shorten date/time fields by one character length by either extending cursor placement to character before right border, or by removing cursor when finished at end of input CharLimit
+- [ ] Better error messages when date/time flags are given non-conforming strings
+- [ ] Protect date/time inputs from delete->reinserts in the middle of the string, breaks
