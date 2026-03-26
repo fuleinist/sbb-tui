@@ -43,7 +43,7 @@ Usage:
 
 Flags:
       --arrival       Use arrival time instead of departure time
-      --date string   Pre-fill date (YYYY-MM-DD)
+      --date string   Pre-fill date (DD.MM.YYYY)
       --from string   Pre-fill departure station
       --no-nerdfont   Use Unicode fallback icons instead of Nerd Font icons
       --time string   Pre-fill time (HH:MM)

@@ -16,7 +16,7 @@ var version = "dev"
 func main() {
 	from := flag.String("from", "", "Pre-fill departure station")
 	to := flag.String("to", "", "Pre-fill arrival station")
-	date := flag.String("date", "", "Pre-fill date (YYYY-MM-DD)")
+	date := flag.String("date", "", "Pre-fill date (DD.MM.YYYY)")
 	timeStr := flag.String("time", "", "Pre-fill time (HH:MM)")
 	arrival := flag.Bool("arrival", false, "Use arrival time instead of departure time")
 	noNerdFont := flag.Bool("no-nerdfont", false, "Use Unicode fallback icons instead of Nerd Font icons")

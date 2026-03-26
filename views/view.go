@@ -256,7 +256,7 @@ func InitialModel(cfg Config) model {
 			if cfg.Date != "" {
 				t.SetValue(cfg.Date)
 			} else {
-				t.SetValue(now.Format("2006-01-02"))
+				t.SetValue(now.Format("02.01.2006"))
 			}
 		case 3:
 			t.Prompt = m.icons.prompt
@@ -468,7 +468,7 @@ func (m *model) updateInputs(msg tea.Msg) tea.Cmd {
 			val := t.Value()
 
 			if msg.Type == tea.KeyBackspace {
-				if len(val) == 6 || len(val) == 9 {
+				if len(val) == 4 || len(val) == 7 {
 					t.SetValue(val[:len(val)-2])
 					return nil
 				}
@@ -476,46 +476,45 @@ func (m *model) updateInputs(msg tea.Msg) tea.Cmd {
 
 			if len(s) == 1 && s >= "0" && s <= "9" {
 				switch len(val) {
-				// Year: YYYY (positions 0-3)
+				// Day: DD (positions 0-1)
 				case 0:
-					if s > "2" {
-						return nil
-					}
-				case 1, 2, 3:
-				// 1st month digit: auto-insert "-", validate (0 or 1)
-				case 4:
-					if s > "1" {
-						return nil
-					}
-					t.SetValue(val + "-" + s)
-					t.SetCursor(len(val) + 2)
-					return nil
-				case 5:
-				// 2nd month digit: val = "YYYY-M#" where val[5] is 1st month digit
-				case 6:
-					if val[5] == '0' && s == "0" {
-						return nil // block month 00
-					}
-					if val[5] == '1' && s > "2" {
-						return nil // block months 13-19
-					}
-				// 1st day digit: auto-insert "-", validate (0-3)
-				case 7:
 					if s > "3" {
 						return nil
 					}
-					t.SetValue(val + "-" + s)
-					t.SetCursor(len(val) + 2)
-					return nil
-				case 8:
-				// 2nd day digit: val = "YYYY-MM-D#" where val[8] is 1st day digit
-				case 9:
-					if val[8] == '0' && s == "0" {
+				case 1:
+					if val[0] == '0' && s == "0" {
 						return nil // block day 00
 					}
-					if val[8] == '3' && s > "1" {
+					if val[0] == '3' && s > "1" {
 						return nil // block days 32-39
 					}
+				// 1st month digit: auto-insert ".", validate (0 or 1)
+				case 2:
+					if s > "1" {
+						return nil
+					}
+					t.SetValue(val + "." + s)
+					t.SetCursor(len(val) + 2)
+					return nil
+				case 3:
+				// 2nd month digit: val = "DD.M#" where val[3] is 1st month digit
+				case 4:
+					if val[3] == '0' && s == "0" {
+						return nil // block month 00
+					}
+					if val[3] == '1' && s > "2" {
+						return nil // block months 13-19
+					}
+				// 1st year digit: auto-insert ".", validate (only 1 or 2)
+				case 5:
+					if s > "2" {
+						return nil
+					}
+					t.SetValue(val + "." + s)
+					t.SetCursor(len(val) + 2)
+					return nil
+				// Year: remaining digits (positions 7-9)
+				case 6, 7, 8, 9:
 				default:
 					return nil
 				}
@@ -606,13 +605,22 @@ func fetchSuggestionsCmd(inputIndex int, query string) tea.Cmd {
 	}
 }
 
+// toAPIDate converts a Swiss-format date (DD.MM.YYYY) to the API format (YYYY-MM-DD).
+func toAPIDate(swiss string) string {
+	parts := strings.Split(swiss, ".")
+	if len(parts) != 3 {
+		return swiss
+	}
+	return parts[2] + "-" + parts[1] + "-" + parts[0]
+}
+
 func (m model) searchCmd() tea.Cmd {
 	maxConnections := m.maxVisibleConnections()
 	return func() tea.Msg {
 		res, err := api.FetchConnections(
 			m.inputs[0].Value(),
 			m.inputs[1].Value(),
-			m.inputs[2].Value(),
+			toAPIDate(m.inputs[2].Value()),
 			m.inputs[3].Value(),
 			m.isArrivalTime,
 			maxConnections,
