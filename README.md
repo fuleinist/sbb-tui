@@ -54,6 +54,7 @@ Flags:
 ## 📝 TODO
 
 - [ ] **Stationboard** mode, returns a list of the next departures at a specific station.
+- [ ] **Via** input field, allows adding an intermediary station.
 - [ ] Connection warnings
 - [ ] Better keymaps/navigation logic
 - [ ] Better keymap help
