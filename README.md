@@ -75,3 +75,13 @@ Flags:
 - [ ] Shorten date/time fields by one character length by either extending cursor placement to character before right border, or by removing cursor when finished at end of input CharLimit
 - [ ] Better error messages when date/time flags are given non-conforming strings
 - [ ] Protect date/time inputs from delete->reinserts in the middle of the string, breaks
+
+## Star History
+
+<a href="https://www.star-history.com/?repos=necrom4%2Fsbb-tui&type=date&legend=top-left">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/image?repos=necrom4/sbb-tui&type=date&theme=dark&legend=top-left" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/image?repos=necrom4/sbb-tui&type=date&legend=top-left" />
+   <img alt="Star History Chart" src="https://api.star-history.com/image?repos=necrom4/sbb-tui&type=date&legend=top-left" />
+ </picture>
+</a>
