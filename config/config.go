@@ -1,3 +1,4 @@
+// Package config handles application configuration and theming.
 package config
 
 import (
@@ -19,10 +20,11 @@ type Config struct {
 	Theme         Theme
 }
 
-type FileConfig struct {
+type fileConfig struct {
 	Theme Theme `yaml:"theme"`
 }
 
+// Theme defines color values for the TUI appearance.
 type Theme struct {
 	Text           string `yaml:"text"`
 	GhostText      string `yaml:"ghostText"`
@@ -41,6 +43,7 @@ type Theme struct {
 	Logo           string `yaml:"logo"`
 }
 
+// DefaultTheme returns the SBB brand color scheme.
 func DefaultTheme() Theme {
 	return Theme{
 		Text:           "#FFFFFF",
@@ -81,7 +84,8 @@ func configFilePath() (string, error) {
 	return filepath.Join(cfgDir, "sbb-tui", "config.yaml"), nil
 }
 
-func LoadThemeConfig() (Theme, error) {
+// LoadTheme reads the config file and returns a Theme with defaults merged.
+func LoadTheme() (Theme, error) {
 	theme := DefaultTheme()
 
 	path, err := configFilePath()
@@ -97,11 +101,12 @@ func LoadThemeConfig() (Theme, error) {
 		return theme, err
 	}
 
-	var cfg FileConfig
+	var cfg fileConfig
 	if err := yaml.Unmarshal(data, &cfg); err != nil {
 		return theme, err
 	}
 
+	// NOTE: update mergeTheme when adding new Theme fields.
 	theme = mergeTheme(theme, cfg.Theme)
 	return theme, nil
 }

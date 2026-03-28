@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/necrom4/sbb-tui/config"
-	"github.com/necrom4/sbb-tui/views"
-
 	tea "github.com/charmbracelet/bubbletea"
 	flag "github.com/spf13/pflag"
+
+	"github.com/necrom4/sbb-tui/config"
+	"github.com/necrom4/sbb-tui/ui"
 )
 
 // version is set at build time via ldflags.
@@ -36,7 +36,7 @@ func main() {
 
 	flag.Parse()
 
-	theme, err := config.LoadThemeConfig()
+	theme, err := config.LoadTheme()
 	if err != nil {
 		fmt.Fprintln(os.Stderr, "warning: could not load config:", err)
 	}
@@ -56,7 +56,7 @@ func main() {
 		Theme:         theme,
 	}
 
-	m := views.InitialModel(cfg)
+	m := ui.NewModel(cfg)
 
 	if _, err := tea.NewProgram(m, tea.WithAltScreen()).Run(); err != nil {
 		fmt.Fprintln(os.Stderr, "could not run program:", err)

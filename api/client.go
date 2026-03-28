@@ -1,4 +1,4 @@
-// Package api
+// Package api provides HTTP client functions for the Swiss public transport API.
 package api
 
 import (
@@ -6,11 +6,9 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
-	"strconv"
 	"strings"
 
-	"github.com/necrom4/sbb-tui/models"
-	"github.com/necrom4/sbb-tui/utils"
+	"github.com/necrom4/sbb-tui/model"
 )
 
 type locationsResponse struct {
@@ -19,6 +17,11 @@ type locationsResponse struct {
 	} `json:"stations"`
 }
 
+type connectionsResponse struct {
+	Connections []model.Connection `json:"connections"`
+}
+
+// FetchLocations returns station name suggestions matching the given query.
 func FetchLocations(query string) ([]string, error) {
 	apiURL := "https://transport.opendata.ch/v1/locations?type=station&query=" + url.QueryEscape(query)
 
@@ -42,7 +45,8 @@ func FetchLocations(query string) ([]string, error) {
 	return names, nil
 }
 
-func FetchConnections(from, to, date, timeStr string, isArrivalTime bool, limit int) ([]models.Connection, error) {
+// FetchConnections queries the transport API for connections between two stations.
+func FetchConnections(from, to, date, timeStr string, isArrivalTime bool, limit int) ([]model.Connection, error) {
 	parts := []string{
 		fmt.Sprintf("from=%s", url.QueryEscape(from)),
 		fmt.Sprintf("to=%s", url.QueryEscape(to)),
@@ -56,8 +60,13 @@ func FetchConnections(from, to, date, timeStr string, isArrivalTime bool, limit 
 		parts = append(parts, fmt.Sprintf("time=%s", url.QueryEscape(timeStr)))
 	}
 
+	isArrival := "0"
+	if isArrivalTime {
+		isArrival = "1"
+	}
+
 	parts = append(parts,
-		fmt.Sprintf("isArrivalTime=%s", strconv.Itoa(utils.Btoi(isArrivalTime))),
+		fmt.Sprintf("isArrivalTime=%s", isArrival),
 		fmt.Sprintf("limit=%v", limit),
 	)
 
@@ -69,7 +78,7 @@ func FetchConnections(from, to, date, timeStr string, isArrivalTime bool, limit 
 	}
 	defer resp.Body.Close()
 
-	var result models.APIResponse
+	var result connectionsResponse
 	if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
 		return nil, err
 	}
