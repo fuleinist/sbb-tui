@@ -987,62 +987,92 @@ func truncateString(s string, maxLen int) string {
 }
 
 func (m model) renderSimpleConnection(c models.Connection, index int, width int) string {
-	firstVehicle := 0
+	firstVehicle := -1
+	lastVehicle := -1
 	for x := range c.Sections {
 		if c.Sections[x].Journey != nil {
-			firstVehicle = x
-			break
+			if firstVehicle == -1 {
+				firstVehicle = x
+			}
+			lastVehicle = x
 		}
 	}
+
+	style := m.styles.inactive.Width(width)
+	if index == m.resultIndex {
+		style = m.styles.active.Width(width)
+	}
+
+	if firstVehicle == -1 {
+		return style.Render("\n  Connection details unavailable\n")
+	}
+
+	lineContentWidth := max(width-style.GetHorizontalFrameSize()-2, 0)
 
 	vehicleIcon := m.styles.vehicleIcon.Render(" " + m.icons.vhc + " ")
 	vehicleModel := m.styles.vehicleModel.Render(c.Sections[firstVehicle].Journey.Category + " " + c.Sections[firstVehicle].Journey.Number)
 	company := m.styles.company.Render(c.Sections[firstVehicle].Journey.Operator)
 	endStop := m.styles.text.Render(c.Sections[firstVehicle].Journey.To)
 
-	dep := c.FromData.Departure.Local().Format("15:04")
+	dep := c.Sections[firstVehicle].Departure.Departure.Local().Format("15:04")
 	arr := c.ToData.Arrival.Local().Format("15:04")
 	departure := m.styles.bold.Render(dep)
 	arrival := m.styles.bold.Render(arr)
 
 	departureDelay := m.formatDelay(c.Sections[firstVehicle].Departure.Delay)
-	arrivalDelay := m.formatDelay(c.Sections[firstVehicle].Arrival.Delay)
+	arrivalDelay := m.formatDelay(c.Sections[lastVehicle].Arrival.Delay)
 
-	stopsLineWidth := max(width-stopsLineFixedWidth, stopsLineMinWidth)
-	stopsLine := m.styles.bold.Render(m.renderStopsLine(c, stopsLineWidth))
+	timelinePrefix := ""
+	if c.Sections[0].Walk != nil {
+		walkMinutes := int(c.Sections[0].Arrival.Arrival.Sub(c.Sections[0].Departure.Departure).Minutes())
+		if walkMinutes > 0 {
+			timelinePrefix = m.icons.wlk + " " + m.styles.text.Render(fmt.Sprintf("%d'", walkMinutes)) + "  "
+		}
+	}
 
-	platformOrWalk := ""
-	if len(c.FromData.Platform) > 0 {
-		platformOrWalk = m.icons.plt + " " + m.styles.text.Render(c.FromData.Platform)
-	} else if c.Sections[0].Walk != nil {
-		platformOrWalk = m.icons.wlk + " " + m.styles.text.Render(
-			fmt.Sprintf("%vm", c.Sections[0].Arrival.Arrival.Sub(c.Sections[0].Departure.Departure).Minutes()),
-		)
+	timelineFixedWidth := lipgloss.Width(timelinePrefix) +
+		lipgloss.Width(departure) +
+		lipgloss.Width(departureDelay) + 2 +
+		2 +
+		lipgloss.Width(arrival) +
+		lipgloss.Width(arrivalDelay)
+	stopsLineWidth := max(lineContentWidth-timelineFixedWidth, stopsLineMinWidth)
+	stopsLineRaw := m.renderStopsLine(c, stopsLineWidth)
+	timelineWidth := timelineFixedWidth + lipgloss.Width(stopsLineRaw)
+	if overflow := timelineWidth - lineContentWidth; overflow > 0 {
+		stopsLineWidth = max(stopsLineWidth-overflow, stopsLineMinWidth)
+		stopsLineRaw = m.renderStopsLine(c, stopsLineWidth)
+	}
+	stopsLine := m.styles.bold.Render(stopsLineRaw)
+
+	platformInfo := ""
+	platform := c.Sections[firstVehicle].Departure.Platform
+	if platform == "" {
+		platform = c.FromData.Platform
+	}
+	if platform != "" {
+		platformInfo = m.icons.plt + " " + m.styles.text.Render(platform)
 	}
 
 	duration := m.styles.text.Render(formatDuration(c.Duration))
 
-	bottomLinePadding := max(width-(borderSize*2+smplConnMrgn*2+smplConnMrgn*2+3+5), 1)
+	bottomLinePadding := max(lineContentWidth-lipgloss.Width(platformInfo)-lipgloss.Width(duration), 1)
 
-	content := fmt.Sprintf("\n  %s %s %s  %s\n\n  %s%s  %s  %s%s\n\n  %s%s%v\n",
+	content := fmt.Sprintf("\n  %s %s %s  %s\n\n  %s%s%s  %s  %s%s\n\n  %s%s%v\n",
 		vehicleIcon,
 		vehicleModel,
 		company,
 		endStop,
+		timelinePrefix,
 		departure,
 		departureDelay,
 		stopsLine,
 		arrival,
 		arrivalDelay,
-		platformOrWalk,
+		platformInfo,
 		strings.Repeat(" ", bottomLinePadding),
 		duration,
 	)
-
-	style := m.styles.inactive.Width(width)
-	if index == m.resultIndex {
-		style = m.styles.active.Width(width)
-	}
 
 	return style.Render(content)
 }
@@ -1059,7 +1089,7 @@ func formatDuration(duration string) string {
 		hours := parts[0][3:]
 		return hours + "h " + minutes + "m"
 	}
-	return minutes + "min"
+	return minutes + " min"
 }
 
 func (m model) formatDelay(delay int) string {
