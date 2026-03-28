@@ -35,9 +35,9 @@ description = "Lint Go files"
 quiet = true
 run = "golangci-lint run"
 
-[hooks]
+[[hooks.enter]]
 # Verify all tools defined in [tools] are actually installed
-enter = """
+script = """
 tools=$(mise config get tools | cut -d' ' -f1)
 
 missing=""
@@ -51,5 +51,14 @@ if [ -n "$missing" ]; then
   echo "\\033[31m[WARNING]\\033[0m"
   echo "Tools defined in mise.toml are not installed:\\033[35m$missing\\033[0m"
   echo "Run '\\033[32mmise install\\033[0m' to set up your environment."
+fi
+"""
+
+[[hooks.enter]]
+script = """
+if [ ! -f ".git/hooks/pre-commit" ] || ! grep -q "pre-commit" ".git/hooks/pre-commit"; then
+  echo "\\033[31m[WARNING]\\033[0m"
+  echo "Git pre-commit \\033[35mhooks\\033[0m not initialized!"
+  echo "Run '\\033[32mmise run init\\033[0m' to enable pre-commit hooks."
 fi
 """
