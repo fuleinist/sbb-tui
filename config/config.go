@@ -1,4 +1,4 @@
-package views
+package config
 
 import (
 	"errors"
@@ -7,6 +7,17 @@ import (
 
 	"gopkg.in/yaml.v3"
 )
+
+// Config holds CLI flag values to pre-fill the TUI form.
+type Config struct {
+	From          string
+	To            string
+	Date          string
+	Time          string
+	IsArrivalTime bool
+	NoNerdFont    bool
+	Theme         Theme
+}
 
 type FileConfig struct {
 	Theme Theme `yaml:"theme"`

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/necrom4/sbb-tui/config"
 	"github.com/necrom4/sbb-tui/views"
 
 	tea "github.com/charmbracelet/bubbletea"
@@ -35,7 +36,7 @@ func main() {
 
 	flag.Parse()
 
-	theme, err := views.LoadThemeConfig()
+	theme, err := config.LoadThemeConfig()
 	if err != nil {
 		fmt.Fprintln(os.Stderr, "warning: could not load config:", err)
 	}
@@ -45,14 +46,14 @@ func main() {
 		os.Exit(0)
 	}
 
-	cfg := views.Config{
+	cfg := config.Config{
 		From:          *from,
 		To:            *to,
 		Date:          *date,
 		Time:          *timeStr,
 		IsArrivalTime: *arrival,
 		NoNerdFont:    *noNerdFont,
-		Theme:          theme,
+		Theme:         theme,
 	}
 
 	m := views.InitialModel(cfg)

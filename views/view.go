@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/necrom4/sbb-tui/api"
+	"github.com/necrom4/sbb-tui/config"
 	"github.com/necrom4/sbb-tui/models"
 	"github.com/necrom4/sbb-tui/utils"
 
@@ -91,17 +92,6 @@ type focusable struct {
 	kind  int
 	id    string
 	index int
-}
-
-// Config holds CLI flag values to pre-fill the TUI form.
-type Config struct {
-	From          string
-	To            string
-	Date          string
-	Time          string
-	IsArrivalTime bool
-	NoNerdFont    bool
-	Theme         Theme
 }
 
 type iconSet struct {
@@ -194,7 +184,7 @@ type model struct {
 	headerOrder   []focusable
 	inputs        []textinput.Model
 	icons         iconSet
-	theme         Theme
+	theme         config.Theme
 	noNerdFont    bool
 	isArrivalTime bool
 	connections   []models.Connection
@@ -206,7 +196,7 @@ type model struct {
 	suggestSeq    [2]int
 }
 
-func InitialModel(cfg Config) model {
+func InitialModel(cfg config.Config) model {
 	// Define input prompts
 	m := model{
 		headerOrder: []focusable{
