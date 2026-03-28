@@ -1,3 +1,10 @@
+## [1.7.2](https://github.com/Necrom4/sbb-tui/compare/v1.7.1...v1.7.2) (2026-03-28)
+
+
+### Bug Fixes
+
+* **views.docs:** document scroll key shortcuts ([2ea4bfe](https://github.com/Necrom4/sbb-tui/commit/2ea4bfe54baefd3290605c6e710e719468e209b2)), closes [#15](https://github.com/Necrom4/sbb-tui/issues/15)
+
 ## [1.7.1](https://github.com/Necrom4/sbb-tui/compare/v1.7.0...v1.7.1) (2026-03-28)
 
 
