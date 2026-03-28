@@ -260,7 +260,7 @@ func InitialModel(cfg Config) model {
 			t.CharLimit = 10
 			t.Width = t.CharLimit
 			t.ShowSuggestions = true
-			t.CompletionStyle = noStyle.Foreground(sbbMidGray)
+			t.CompletionStyle = noStyle.Foreground(m.color(m.theme.Muted))
 			t.KeyMap.AcceptSuggestion = key.NewBinding(key.WithKeys("right"))
 			if cfg.Date != "" {
 				t.SetValue(cfg.Date)
@@ -272,7 +272,7 @@ func InitialModel(cfg Config) model {
 			t.CharLimit = 5
 			t.Width = t.CharLimit
 			t.ShowSuggestions = true
-			t.CompletionStyle = noStyle.Foreground(sbbMidGray)
+			t.CompletionStyle = noStyle.Foreground(m.color(m.theme.Muted))
 			t.KeyMap.AcceptSuggestion = key.NewBinding(key.WithKeys("right"))
 			if cfg.Time != "" {
 				t.SetValue(cfg.Time)
