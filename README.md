@@ -47,14 +47,21 @@ OS default config paths are also supported (such as `~/Library/Application Suppo
 ```yaml
 # default configuration
 theme:
-  primary: "#D82E20" # focused window border
-  text:    "#FFFFFF" # normal text
-  border:  "#862010" # unfocused window border
-  muted:   "#888888" # greyed out window border
-  vehicle: "#315086" # vehicle icon background
-  company: "#484848" # company name background
-  warning: "#dc5e4a" # connection warning flags
-  keysBg:  "#484848" # help bar key background
+  text:           "#FFFFFF"
+  ghostText:      "#888888"
+  activeBorder:   "#D82E20"
+  inactiveBorder: "#484848"
+  dimmedBorder:   "#862010"
+  warningFlag:    "#D82E20"
+  keysFg:         "#FFFFFF"
+  keysBg:         "#484848"
+  vehicleFg:      "#FFFFFF"
+  vehicleBg:      "#2E3279"
+  modelFg:        "#FFFFFF"
+  modelBg:        "#D82E20"
+  companyFg:      "#484848"
+  companyBg:      "#FFFFFF"
+  logo:           "#FFFFFF"
 ```
 
 ## 🚩 Options

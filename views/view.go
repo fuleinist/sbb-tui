@@ -53,38 +53,38 @@ const (
 
 var noStyle = lipgloss.NewStyle()
 
-func (m model) focusedStyle() lipgloss.Style {
+func (m model) activeStyle() lipgloss.Style {
 	return lipgloss.NewStyle().
 		Border(lipgloss.RoundedBorder()).
-		BorderForeground(lipgloss.Color(m.theme.Primary)).
+		BorderForeground(lipgloss.Color(m.theme.ActiveBorder)).
 		Padding(0, 1)
 }
 
-func (m model) blurredStyle() lipgloss.Style {
+func (m model) inactiveStyle() lipgloss.Style {
 	return lipgloss.NewStyle().
 		Border(lipgloss.RoundedBorder()).
-		BorderForeground(lipgloss.Color(m.theme.Border)).
+		BorderForeground(lipgloss.Color(m.theme.InactiveBorder)).
 		Padding(0, 1)
 }
 
 func (m model) detailedResultStyle() lipgloss.Style {
 	return lipgloss.NewStyle().
 		Border(lipgloss.RoundedBorder()).
-		BorderForeground(lipgloss.Color(m.theme.Primary)).
+		BorderForeground(lipgloss.Color(m.theme.ActiveBorder)).
 		Padding(fullConnPaddV, fullConnPaddH)
 }
 
 func (m model) helpKeyStyle() lipgloss.Style {
 	return lipgloss.NewStyle().
 		Bold(true).
-		Foreground(lipgloss.Color(m.theme.Text)).
+		Foreground(lipgloss.Color(m.theme.KeysFg)).
 		Background(lipgloss.Color(m.theme.KeysBg)).
 		Padding(0, 1)
 }
 
 func (m model) helpDescStyle() lipgloss.Style {
 	return lipgloss.NewStyle().
-		Foreground(lipgloss.Color(m.theme.Muted))
+		Foreground(lipgloss.Color(m.theme.GhostText))
 }
 
 type focusable struct {
@@ -254,7 +254,7 @@ func InitialModel(cfg Config) model {
 			t.CharLimit = 10
 			t.Width = t.CharLimit
 			t.ShowSuggestions = true
-			t.CompletionStyle = noStyle.Foreground(lipgloss.Color(m.theme.Muted))
+			t.CompletionStyle = noStyle.Foreground(lipgloss.Color(m.theme.GhostText))
 			t.KeyMap.AcceptSuggestion = key.NewBinding(key.WithKeys("right"))
 			if cfg.Date != "" {
 				t.SetValue(cfg.Date)
@@ -266,7 +266,7 @@ func InitialModel(cfg Config) model {
 			t.CharLimit = 5
 			t.Width = t.CharLimit
 			t.ShowSuggestions = true
-			t.CompletionStyle = noStyle.Foreground(lipgloss.Color(m.theme.Muted))
+			t.CompletionStyle = noStyle.Foreground(lipgloss.Color(m.theme.GhostText))
 			t.KeyMap.AcceptSuggestion = key.NewBinding(key.WithKeys("right"))
 			if cfg.Time != "" {
 				t.SetValue(cfg.Time)
@@ -423,7 +423,7 @@ func (m model) View() string {
 		minW := minTermWidth
 		msg := fmt.Sprintf("Terminal too small (%dx%d)\nMinimum size: %dx%d", m.width, m.height, minW, minTermHeight)
 		return lipgloss.Place(m.width, m.height, lipgloss.Center, lipgloss.Center,
-			noStyle.Foreground(lipgloss.Color(m.theme.Warning)).Bold(true).Render(msg))
+			noStyle.Foreground(lipgloss.Color(m.theme.WarningFlag)).Bold(true).Render(msg))
 	}
 
 	header := m.renderHeader()
@@ -442,7 +442,7 @@ func (m model) View() string {
 		header,
 		noStyle.
 			Border(lipgloss.RoundedBorder()).
-			BorderForeground(lipgloss.Color(m.theme.Border)).
+			BorderForeground(lipgloss.Color(m.theme.DimmedBorder)).
 			Width(m.contentWidth()).
 			Height(m.resultsHeight()).
 			Padding(0, rsltMrgn).
@@ -698,9 +698,9 @@ func (m model) renderHelpBar() string {
 
 func (m model) renderHeaderItem(idx int) string {
 	item := m.headerOrder[idx]
-	style := m.blurredStyle()
+	style := m.inactiveStyle()
 	if m.tabIndex == idx {
-		style = m.focusedStyle()
+		style = m.activeStyle()
 	}
 
 	if item.kind == KindInput {
@@ -740,7 +740,7 @@ func (m model) renderResults() string {
 	}
 
 	if m.errorMsg != "" {
-		return "\n  " + noStyle.Foreground(lipgloss.Color(m.theme.Warning)).Render(m.errorMsg)
+		return "\n  " + noStyle.Foreground(lipgloss.Color(m.theme.WarningFlag)).Render(m.errorMsg)
 	}
 
 	if len(m.connections) == 0 {
@@ -767,9 +767,9 @@ func (m model) renderStartScreen() string {
 	}
 	logo = strings.TrimRight(logo, "\n")
 
-	coloredLogo := noStyle.Foreground(lipgloss.Color(m.theme.Text)).Render(logo)
+	coloredLogo := noStyle.Foreground(lipgloss.Color(m.theme.Logo)).Render(logo)
 
-	text := noStyle.Foreground(lipgloss.Color(m.theme.Muted)).Render("Enter stations above to see timetables")
+	text := noStyle.Foreground(lipgloss.Color(m.theme.GhostText)).Render("Enter stations above to see timetables")
 
 	block := lipgloss.JoinVertical(lipgloss.Center, text, "", coloredLogo)
 
@@ -847,12 +847,12 @@ func (m model) renderJourneySection(section models.Section, width int, isFirst, 
 	spacingLine := fmt.Sprintf("%s  %s", indent, m.icons.vertLine)
 	lines = append(lines, spacingLine)
 
-	vehicleIcon := noStyle.Background(lipgloss.Color(m.theme.Vehicle)).Foreground(lipgloss.Color(m.theme.Text)).Render(" " + m.icons.vhc + " ")
-	vehicleCategory := noStyle.Background(lipgloss.Color(m.theme.Primary)).Foreground(lipgloss.Color(m.theme.Text)).Bold(true).
+	vehicleIcon := noStyle.Background(lipgloss.Color(m.theme.VehicleBg)).Foreground(lipgloss.Color(m.theme.VehicleFg)).Render(" " + m.icons.vhc + " ")
+	vehicleModel := noStyle.Background(lipgloss.Color(m.theme.ModelBg)).Foreground(lipgloss.Color(m.theme.ModelFg)).Bold(true).
 		Render(section.Journey.Category + " " + section.Journey.Number)
-	company := noStyle.Background(lipgloss.Color(m.theme.Company)).Foreground(lipgloss.Color(m.theme.Text)).
+	company := noStyle.Background(lipgloss.Color(m.theme.CompanyBg)).Foreground(lipgloss.Color(m.theme.CompanyFg)).
 		Render(section.Journey.Operator)
-	vehicleLine := fmt.Sprintf("%s  %s  %s %s %s", indent, m.icons.vertLine, vehicleIcon, vehicleCategory, company)
+	vehicleLine := fmt.Sprintf("%s  %s  %s %s %s", indent, m.icons.vertLine, vehicleIcon, vehicleModel, company)
 	lines = append(lines, vehicleLine)
 
 	destLine := fmt.Sprintf("%s  %s   %s %s", indent, m.icons.vertLine, m.icons.twrds, section.Journey.To)
@@ -920,7 +920,7 @@ func (m model) formatStationLine(timeStr string, delay int, symbol, station, pla
 	delayPart := ""
 	if delay > 0 {
 		delayStr := fmt.Sprintf("+%d", delay)
-		delayPart = noStyle.Foreground(lipgloss.Color(m.theme.Warning)).Bold(true).Render(fmt.Sprintf("%*s", delayCol, delayStr))
+		delayPart = noStyle.Foreground(lipgloss.Color(m.theme.WarningFlag)).Bold(true).Render(fmt.Sprintf("%*s", delayCol, delayStr))
 	} else {
 		delayPart = strings.Repeat(" ", delayCol)
 	}
@@ -972,10 +972,10 @@ func (m model) renderSimpleConnection(c models.Connection, index int, width int)
 		}
 	}
 
-	vehicleIcon := noStyle.Background(lipgloss.Color(m.theme.Vehicle)).Foreground(lipgloss.Color(m.theme.Text)).Render(" " + m.icons.vhc + " ")
-	vehicleCategory := noStyle.Background(lipgloss.Color(m.theme.Primary)).Foreground(lipgloss.Color(m.theme.Text)).Bold(true).
+	vehicleIcon := noStyle.Background(lipgloss.Color(m.theme.VehicleBg)).Foreground(lipgloss.Color(m.theme.VehicleFg)).Render(" " + m.icons.vhc + " ")
+	vehicleModel := noStyle.Background(lipgloss.Color(m.theme.ModelBg)).Foreground(lipgloss.Color(m.theme.ModelFg)).Bold(true).
 		Render(c.Sections[firstVehicle].Journey.Category + " " + c.Sections[firstVehicle].Journey.Number)
-	company := noStyle.Background(lipgloss.Color(m.theme.Company)).Foreground(lipgloss.Color(m.theme.Text)).
+	company := noStyle.Background(lipgloss.Color(m.theme.CompanyBg)).Foreground(lipgloss.Color(m.theme.CompanyFg)).
 		Render(c.Sections[firstVehicle].Journey.Operator)
 	endStop := noStyle.Render(c.Sections[firstVehicle].Journey.To)
 
@@ -1005,7 +1005,7 @@ func (m model) renderSimpleConnection(c models.Connection, index int, width int)
 
 	content := fmt.Sprintf("\n  %s %s %s  %s\n\n  %s%s  %s  %s%s\n\n  %s%s%v\n",
 		vehicleIcon,
-		vehicleCategory,
+		vehicleModel,
 		company,
 		endStop,
 		departure,
@@ -1018,9 +1018,9 @@ func (m model) renderSimpleConnection(c models.Connection, index int, width int)
 		duration,
 	)
 
-	style := m.blurredStyle().Width(width)
+	style := m.inactiveStyle().Width(width)
 	if index == m.resultIndex {
-		style = m.focusedStyle().Width(width)
+		style = m.activeStyle().Width(width)
 	}
 
 	return style.Render(content)
@@ -1043,7 +1043,7 @@ func formatDuration(duration string) string {
 
 func (m model) formatDelay(delay int) string {
 	if delay > 0 {
-		return noStyle.Foreground(lipgloss.Color(m.theme.Warning)).Bold(true).Render(fmt.Sprintf(" +%d", delay))
+		return noStyle.Foreground(lipgloss.Color(m.theme.WarningFlag)).Bold(true).Render(fmt.Sprintf(" +%d", delay))
 	}
 	return ""
 }

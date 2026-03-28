@@ -8,31 +8,45 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-type Theme struct {
-	Primary string `yaml:"primary"`
-	Text    string `yaml:"text"`
-	Border  string `yaml:"border"`
-	Muted   string `yaml:"muted"`
-	Vehicle string `yaml:"vehicle"`
-	Company string `yaml:"company"`
-	Warning string `yaml:"warning"`
-	KeysBg  string `yaml:"keysBg"`
-}
-
 type FileConfig struct {
 	Theme Theme `yaml:"theme"`
 }
 
+type Theme struct {
+	Text           string `yaml:"text"`
+	GhostText      string `yaml:"ghostText"`
+	ActiveBorder   string `yaml:"activeBorder"`
+	InactiveBorder string `yaml:"inactiveBorder"`
+	DimmedBorder   string `yaml:"dimmedBorder"`
+	WarningFlag    string `yaml:"warning"`
+	KeysFg         string `yaml:"keysFg"`
+	KeysBg         string `yaml:"keysBg"`
+	VehicleFg      string `yaml:"vehicleFg"`
+	VehicleBg      string `yaml:"vehicleBg"`
+	ModelFg        string `yaml:"ModelFg"`
+	ModelBg        string `yaml:"ModelBg"`
+	CompanyFg      string `yaml:"companyFg"`
+	CompanyBg      string `yaml:"companyBg"`
+	Logo           string `yaml:"logo"`
+}
+
 func DefaultTheme() Theme {
 	return Theme{
-		Primary: "#D82E20",
-		Text:    "#FFFFFF",
-		Border:  "#862010",
-		Muted:   "#888888",
-		Vehicle: "#2E3279",
-		Company: "#484848",
-		Warning: "#D82E20",
-		KeysBg:  "#484848",
+		Text:           "#FFFFFF",
+		GhostText:      "#888888",
+		ActiveBorder:   "#D82E20",
+		InactiveBorder: "#484848",
+		DimmedBorder:   "#862010",
+		WarningFlag:    "#D82E20",
+		KeysFg:         "#FFFFFF",
+		KeysBg:         "#484848",
+		VehicleFg:      "#FFFFFF",
+		VehicleBg:      "#2E3279",
+		ModelFg:        "#FFFFFF",
+		ModelBg:        "#D82E20",
+		CompanyFg:      "#484848",
+		CompanyBg:      "#FFFFFF",
+		Logo:           "#FFFFFF",
 	}
 }
 
@@ -82,29 +96,41 @@ func LoadThemeConfig() (Theme, error) {
 }
 
 func mergeTheme(base Theme, override Theme) Theme {
-	if override.Primary != "" {
-		base.Primary = override.Primary
-	}
 	if override.Text != "" {
 		base.Text = override.Text
 	}
-	if override.Border != "" {
-		base.Border = override.Border
+	if override.GhostText != "" {
+		base.GhostText = override.GhostText
 	}
-	if override.Muted != "" {
-		base.Muted = override.Muted
+	if override.ActiveBorder != "" {
+		base.ActiveBorder = override.ActiveBorder
 	}
-	if override.Vehicle != "" {
-		base.Vehicle = override.Vehicle
+	if override.InactiveBorder != "" {
+		base.InactiveBorder = override.InactiveBorder
 	}
-	if override.Company != "" {
-		base.Company = override.Company
+	if override.DimmedBorder != "" {
+		base.DimmedBorder = override.DimmedBorder
 	}
-	if override.Warning != "" {
-		base.Warning = override.Warning
+	if override.WarningFlag != "" {
+		base.WarningFlag = override.WarningFlag
+	}
+	if override.KeysFg != "" {
+		base.KeysFg = override.KeysFg
 	}
 	if override.KeysBg != "" {
 		base.KeysBg = override.KeysBg
+	}
+	if override.VehicleFg != "" {
+		base.VehicleFg = override.VehicleFg
+	}
+	if override.VehicleBg != "" {
+		base.VehicleBg = override.VehicleBg
+	}
+	if override.CompanyFg != "" {
+		base.CompanyFg = override.CompanyFg
+	}
+	if override.Logo != "" {
+		base.Logo = override.Logo
 	}
 
 	return base
