@@ -35,3 +35,21 @@ description = "Lint Go files"
 quiet = true
 run = "golangci-lint run"
 
+[hooks]
+# Verify all tools defined in [tools] are actually installed
+enter = """
+tools=$(mise config get tools | cut -d' ' -f1)
+
+missing=""
+for tool in $tools; do
+  if ! mise which "$tool" > /dev/null 2>&1; then
+    missing="$missing $tool"
+  fi
+done
+
+if [ -n "$missing" ]; then
+  echo "\\033[31m[WARNING]\\033[0m"
+  echo "Tools defined in mise.toml are not installed:\\033[35m$missing\\033[0m"
+  echo "Run '\\033[32mmise install\\033[0m' to set up your environment."
+fi
+"""
