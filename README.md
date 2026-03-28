@@ -19,11 +19,8 @@ TUI client for Switzerland's public transports timetables, inspidered by the SBB
 ```sh
 # homebrew
 brew install necrom4/tap/sbb-tui
-# or go
+# go
 go install github.com/necrom4/sbb-tui
-```
-
-```
 # aur
 yay -S sbb-tui
 ```
