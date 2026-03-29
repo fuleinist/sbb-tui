@@ -1,3 +1,11 @@
+## [1.11.3](https://github.com/Necrom4/sbb-tui/compare/v1.11.2...v1.11.3) (2026-03-29)
+
+
+### Performance Improvements
+
+* **mise:** improve missing tools check ([b93f600](https://github.com/Necrom4/sbb-tui/commit/b93f600f3ecb859e2dadec76d1b983829f665824))
+* **mise:** set text format as variables ([3f47acd](https://github.com/Necrom4/sbb-tui/commit/3f47acda9e44f784701a527089357ce9e2dc3311))
+
 ## [1.11.2](https://github.com/Necrom4/sbb-tui/compare/v1.11.1...v1.11.2) (2026-03-29)
 
 
