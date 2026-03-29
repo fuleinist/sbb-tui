@@ -20,5 +20,6 @@
   - Split your PR into very **granular** commits, each defining a **single** change. Summarize each change in the commit's subject and write an in depth explanation in the body if necessary. No one should have to look at your code to understand what it does.
   - Comment your code if necessary, but don't overdo it. Function names should be enough, if there's a small chunk of code that may not be understandable at first sight, explain what it does with a comment above.
   - Enable **pre-commit** hooks! Those allow linting, formatting and more before committing! Install `mise` to help you install the necessary tools.
+  - Read and comply with [godoc](https://go.dev/blog/godoc). The linter will check your missing comments. You can also run `mise run docs` to view the current state of the API documentation.
 
 Thanks for wanting to improve this fabulous tool!
