@@ -29,7 +29,6 @@ type styles struct {
 	active         lipgloss.Style
 	inactive       lipgloss.Style
 	detailedResult lipgloss.Style
-	dimmedBorder   lipgloss.Style
 	helpKey        lipgloss.Style
 	helpDesc       lipgloss.Style
 	warning        lipgloss.Style
@@ -63,10 +62,6 @@ func newStyles(theme config.Theme) styles {
 			Border(lipgloss.RoundedBorder()).
 			BorderForeground(lipgloss.Color(theme.ActiveBorder)).
 			Padding(detailPaddingV, detailPaddingH),
-		dimmedBorder: lipgloss.NewStyle().
-			Border(lipgloss.RoundedBorder()).
-			BorderForeground(lipgloss.Color(theme.DimmedBorder)).
-			Padding(0, resultMargin),
 		helpKey: lipgloss.NewStyle().
 			Bold(true).
 			Foreground(lipgloss.Color(theme.KeysFg)).

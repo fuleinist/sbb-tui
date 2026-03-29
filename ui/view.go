@@ -40,10 +40,7 @@ func (m appModel) View() string {
 
 	return lipgloss.JoinVertical(lipgloss.Left,
 		header,
-		m.styles.dimmedBorder.
-			Width(m.contentWidth()).
-			Height(m.resultsHeight()).
-			Render(results),
+		results,
 		helpBar,
 	)
 }
@@ -51,11 +48,11 @@ func (m appModel) View() string {
 // Layout calculations
 
 func (m appModel) contentWidth() int {
-	return max(m.width-borderSize, 0)
+	return max(m.width, 0)
 }
 
 func (m appModel) resultsHeight() int {
-	return max(m.height-headerHeight-borderSize-helpBarHeight, 0)
+	return max(m.height-headerHeight-helpBarHeight, 0)
 }
 
 func (m appModel) maxVisibleConnections() int {
@@ -183,7 +180,7 @@ func (m appModel) renderStartScreen() string {
 
 	block := lipgloss.JoinVertical(lipgloss.Center, text, "", coloredLogo)
 
-	width := max(m.contentWidth()-borderSize-(resultMargin*2), 0)
+	width := max(m.contentWidth(), 0)
 	height := m.resultsHeight()
 
 	return lipgloss.Place(width, height, lipgloss.Center, lipgloss.Center, block)
@@ -194,6 +191,6 @@ func (m appModel) renderDetailedResult() string {
 		return ""
 	}
 
-	boxWidth := max(m.width-borderSize*4-m.resultBoxWidth(), 0)
+	boxWidth := max(m.width-borderSize*2-m.resultBoxWidth(), 0)
 	return m.renderFullConnection(m.connections[m.resultIndex], boxWidth)
 }
