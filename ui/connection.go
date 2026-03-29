@@ -71,11 +71,10 @@ func (m appModel) renderFullConnection(c model.Connection, width int) string {
 	return m.styles.detailedResult.Width(width).Height(boxHeight).Render(strings.Join(visLines, "\n"))
 }
 
-func (m appModel) renderJourneySection(section model.Section, width int, isFirst, isLast bool) []string {
+func (m appModel) renderJourneySection(section model.Section, width, labelCol, platformCol int, isFirst, isLast bool) []string {
 	var lines []string
 
 	const timeCol = 5
-	const delayCol = 4
 	const symbolCol = 5
 
 	depTime := section.Departure.Scheduled.Local().Format("15:04")
@@ -91,9 +90,15 @@ func (m appModel) renderJourneySection(section model.Section, width int, isFirst
 	depLine := m.formatStationLine(depTime, depDot, depStation, depPlatform, width, timeCol, symbolCol, labelCol, platformCol, true)
 	lines = append(lines, depLine)
 
-	indent := strings.Repeat(" ", timeCol+delayCol)
+	indent := strings.Repeat(" ", timeCol)
 	spacingLine := fmt.Sprintf("%s  %s", indent, m.icons.vertLine)
-	lines = append(lines, spacingLine)
+
+	if depDelay > 0 {
+		delayStr := m.styles.warningBold.Render(fmt.Sprintf("%*s", timeCol, fmt.Sprintf("+%d", depDelay)))
+		lines = append(lines, fmt.Sprintf("%s  %s", delayStr, m.styles.bold.Render(m.icons.vertLine)))
+	} else {
+		lines = append(lines, spacingLine)
+	}
 
 	vehicleIcon := m.styles.vehicleIcon.Render(" " + m.icons.vehicle + " ")
 	vehicleModel := m.styles.vehicleModel.Render(section.Journey.Category + " " + section.Journey.Number)
@@ -118,6 +123,11 @@ func (m appModel) renderJourneySection(section model.Section, width int, isFirst
 
 	arrLine := m.formatStationLine(arrTime, arrSymbol, arrStation, arrPlatform, width, timeCol, symbolCol, labelCol, platformCol, false)
 	lines = append(lines, arrLine)
+
+	if arrDelay > 0 {
+		delayStr := m.styles.warningBold.Render(fmt.Sprintf("%*s", timeCol, fmt.Sprintf("+%d", arrDelay)))
+		lines = append(lines, delayStr)
+	}
 
 	return lines
 }
@@ -169,15 +179,7 @@ func (m appModel) formatStationLine(timeStr, symbol, station, platform string, w
 
 	timePart := textStyle.Render(timeStr)
 
-	delayPart := ""
-	if delay > 0 {
-		delayStr := fmt.Sprintf("+%d'", delay)
-		delayPart = m.styles.warningBold.Render(fmt.Sprintf("%*s", delayCol, delayStr))
-	} else {
-		delayPart = strings.Repeat(" ", delayCol)
-	}
-
-	symbolPart := fmt.Sprintf("  %s  ", symbol)
+	symbolPart := fmt.Sprintf("  %s  ", textStyle.Render(symbol))
 
 	platformPart := ""
 	if platform != "" {
