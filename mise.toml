@@ -3,6 +3,7 @@ go = "latest"
 gofumpt = "latest"
 golangci-lint = "latest"
 pre-commit = "latest"
+"go:golang.org/x/tools/cmd/godoc" = "latest"
 
 [tasks.init]
 description = "Install hooks and setup environment"
@@ -34,6 +35,11 @@ fi
 description = "Lint Go files"
 quiet = true
 run = "golangci-lint run"
+
+[tasks.docs]
+description = "Serve godoc at http://localhost:6060"
+quiet = true
+run = 'echo "Open \033]8;;http://localhost:6060/pkg/github.com/necrom4/sbb-tui/\033\http://localhost:6060/pkg/github.com/necrom4/sbb-tui/\033]8;;\033\\033[0m" && godoc -http=:6060'
 
 [[hooks.enter]]
 # Verify all tools defined in [tools] are actually installed
