@@ -1,3 +1,10 @@
+## [1.11.1](https://github.com/Necrom4/sbb-tui/compare/v1.11.0...v1.11.1) (2026-03-29)
+
+
+### Bug Fixes
+
+* excessive line when delay is renderd below arrival time ([1141900](https://github.com/Necrom4/sbb-tui/commit/114190035a097f503b1460517cb22d61f38a8f1c))
+
 # [1.11.0](https://github.com/Necrom4/sbb-tui/compare/v1.10.0...v1.11.0) (2026-03-29)
 
 
