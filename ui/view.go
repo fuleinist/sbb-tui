@@ -16,6 +16,8 @@ var (
 
 	//go:embed sbb-logo-nerdfont.txt
 	sbbLogoNerdFont string
+
+	latestReleaseUrl = "https://github.com/Necrom4/sbb-tui/releases/latest"
 )
 
 // View implements tea.Model.
@@ -105,6 +107,12 @@ func (m appModel) renderHelpBar() string {
 	left := " " + strings.Join(parts, "   ")
 	right := fmt.Sprintf("SBB-TUI %s", m.currentVersion)
 
+	if m.newerVersion != "" {
+		link := renderLink(m.newerVersion, latestReleaseUrl)
+		label := m.styles.warning.Render(fmt.Sprintf("(latest: %s)", link))
+		right = fmt.Sprintf("%s %s", right, label)
+	}
+
 	gap := max(1, m.width-lipgloss.Width(left)-lipgloss.Width(right))
 	return left + strings.Repeat(" ", gap-1) + m.styles.ghostText.Render(right)
 }
@@ -185,8 +193,7 @@ func (m appModel) renderStartScreen() string {
 	block := lipgloss.JoinVertical(lipgloss.Center, text, "", coloredLogo)
 
 	if m.newerVersion != "" {
-		url := "https://github.com/Necrom4/sbb-tui/releases/latest"
-		link := renderLink(m.newerVersion, url)
+		link := renderLink(m.newerVersion, latestReleaseUrl)
 		label := fmt.Sprintf("Update available: %s", link)
 		block = lipgloss.JoinVertical(lipgloss.Center, block, "", m.styles.active.Render(label))
 	}
