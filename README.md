@@ -93,21 +93,13 @@ Flags:
 
 > I often work in the train, passing through remote regions of Switzerland where I'll have to wait up to an entire minute to finally be able to load the SBB website/app and get the much needed information about my next connection (I have a cheap cellular data subscription). Someday I fell onto the incredible [Swiss public transport API](https://transport.opendata.ch/docs.html) and decided it was the perfect occasion to learn how to create TUIs.
 
-## 📝 TODO
+## 🍻 HELP WANTED!
 
-- [ ] **Stationboard** mode, returns a list of the next departures at a specific station.
-- [ ] **Via** input field, allows adding an intermediary station.
-- [ ] Connection warnings
-- [ ] Better keymaps/navigation logic
-- [ ] Better keymap help
-- [ ] Suggestions when writing strings without accent (writing "zurich", "Zürich" isn't suggested)
-- [ ] Revise UI for not-so-wide terminals
-- [ ] Scroll icons as hint in border of scrollable detailedRender window
-- [ ] Only autocomplete with cursor at last character, otherwise move cursor right
-- [ ] Shorten date/time fields by one character length by either extending cursor placement to character before right border, or by removing cursor when finished at end of input CharLimit
-- [ ] Better error messages when date/time flags are given non-conforming strings
-- [ ] Protect date/time inputs from delete->reinserts in the middle of the string, breaks
+**SBB-TUI** is in constant improvement thanks to the work of many volunteers passionate about this little tool.
+This project is a very good playground for those who want to learn to collaborate in open source projects and improve the way they architecture their code and commit it. Wether you're a novice or a professional, don't be scared to hop on the train!
 
+There's plenty of [Issues](https://github.com/Necrom4/sbb-tui/issues) of different complexity levels, many tagged with `help wanted` or `good first issue`.
+So if you're up for the challenge, read [CONTRIBUTING.md](https://github.com/Necrom4/sbb-tui/blob/master/CONTRIBUTING.md), create your PR, and start coding!
 ## Star History
 
 <a href="https://www.star-history.com/?repos=necrom4%2Fsbb-tui&type=date&legend=top-left">
