@@ -86,11 +86,17 @@ func NewModel(cfg config.Config) appModel {
 		t := textinput.New()
 		t.CharLimit = 32
 
+		t.TextStyle = m.styles.text
+		t.PromptStyle = m.styles.text
+		t.PlaceholderStyle = m.styles.ghostText
+		t.Cursor.Style = m.styles.active
+		t.CompletionStyle = m.styles.ghostText
+		t.Prompt = m.icons.prompt
+		t.ShowSuggestions = true
+
 		switch i {
 		case 0:
 			t.Placeholder = "From"
-			t.Prompt = m.icons.prompt
-			t.ShowSuggestions = true
 			t.KeyMap.AcceptSuggestion = key.NewBinding(key.WithKeys("right"))
 			if cfg.From != "" {
 				t.SetValue(cfg.From)
@@ -98,18 +104,13 @@ func NewModel(cfg config.Config) appModel {
 			t.Focus()
 		case 1:
 			t.Placeholder = "To"
-			t.Prompt = m.icons.prompt
-			t.ShowSuggestions = true
 			t.KeyMap.AcceptSuggestion = key.NewBinding(key.WithKeys("right"))
 			if cfg.To != "" {
 				t.SetValue(cfg.To)
 			}
 		case 2:
-			t.Prompt = m.icons.prompt
 			t.CharLimit = 10
 			t.Width = t.CharLimit
-			t.ShowSuggestions = true
-			t.CompletionStyle = m.styles.ghostText
 			t.KeyMap.AcceptSuggestion = key.NewBinding(key.WithKeys("right"))
 			if cfg.Date != "" {
 				t.SetValue(cfg.Date)
@@ -117,11 +118,8 @@ func NewModel(cfg config.Config) appModel {
 				t.SetValue(now.Format("02.01.2006"))
 			}
 		case 3:
-			t.Prompt = m.icons.prompt
 			t.CharLimit = 5
 			t.Width = t.CharLimit
-			t.ShowSuggestions = true
-			t.CompletionStyle = m.styles.ghostText
 			t.KeyMap.AcceptSuggestion = key.NewBinding(key.WithKeys("right"))
 			if cfg.Time != "" {
 				t.SetValue(cfg.Time)

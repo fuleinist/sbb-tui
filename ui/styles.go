@@ -52,10 +52,12 @@ func newStyles(theme config.Theme) styles {
 		active: lipgloss.NewStyle().
 			Border(lipgloss.RoundedBorder()).
 			BorderForeground(lipgloss.Color(theme.ActiveBorder)).
+			Foreground(lipgloss.Color(theme.Text)).
 			Padding(0, 1),
 		inactive: lipgloss.NewStyle().
 			Border(lipgloss.RoundedBorder()).
 			BorderForeground(lipgloss.Color(theme.InactiveBorder)).
+			Foreground(lipgloss.Color(theme.Text)).
 			Padding(0, 1),
 		detailedResult: lipgloss.NewStyle().
 			Border(lipgloss.RoundedBorder()).
