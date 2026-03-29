@@ -32,7 +32,6 @@ type Theme struct {
 	GhostText      string `yaml:"ghostText"`
 	ActiveBorder   string `yaml:"activeBorder"`
 	InactiveBorder string `yaml:"inactiveBorder"`
-	DimmedBorder   string `yaml:"dimmedBorder"`
 	WarningFlag    string `yaml:"warningFlag"`
 	KeysFg         string `yaml:"keysFg"`
 	KeysBg         string `yaml:"keysBg"`
@@ -53,7 +52,6 @@ func DefaultTheme() Theme {
 		GhostText:      "#888888",
 		ActiveBorder:   "#D82E20",
 		InactiveBorder: "#484848",
-		DimmedBorder:   "#862010",
 		WarningFlag:    "#D82E20",
 		KeysFg:         "#FFFFFF",
 		KeysBg:         "#484848",
@@ -126,9 +124,6 @@ func mergeTheme(base Theme, override Theme) Theme {
 	}
 	if override.InactiveBorder != "" {
 		base.InactiveBorder = override.InactiveBorder
-	}
-	if override.DimmedBorder != "" {
-		base.DimmedBorder = override.DimmedBorder
 	}
 	if override.WarningFlag != "" {
 		base.WarningFlag = override.WarningFlag

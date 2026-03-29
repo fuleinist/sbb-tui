@@ -56,7 +56,6 @@ theme:
   ghostText:      "#888888"
   activeBorder:   "#D82E20"
   inactiveBorder: "#484848"
-  dimmedBorder:   "#862010"
   warningFlag:    "#D82E20"
   keysFg:         "#FFFFFF"
   keysBg:         "#484848"
