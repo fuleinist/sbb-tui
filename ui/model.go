@@ -86,6 +86,12 @@ func NewModel(cfg config.Config) appModel {
 		t := textinput.New()
 		t.CharLimit = 32
 
+		t.TextStyle = m.styles.text
+		t.PromptStyle = m.styles.text
+		t.PlaceholderStyle = m.styles.ghostText
+		t.Cursor.Style = m.styles.active
+		t.CompletionStyle = m.styles.ghostText
+
 		switch i {
 		case 0:
 			t.Placeholder = "From"
