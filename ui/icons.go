@@ -49,13 +49,13 @@ func newIconSet(noNerdFont bool) iconSet {
 	}
 
 	if noNerdFont {
-		icons.arrival = "↘"
-		icons.departure = "↗"
+		icons.arrival = "⤙"
+		icons.departure = "⤚"
 		icons.search = "⌕"
-		icons.swap = "⇋"
-		icons.vehicle = "×"
-		icons.walk = "Walk:"
-		icons.prompt = "> "
+		icons.swap = "↔"
+		icons.vehicle = "◇"
+		icons.walk = "walk:"
+		icons.prompt = "🞂 "
 	} else {
 		icons.arrival = "󰗔"
 		icons.departure = ""
