@@ -12,7 +12,7 @@ TUI client for Switzerland's public transports timetables, inspidered by the SBB
 - ➡️ **Autocompletion** of station names
 - 🚩 **CLI flags** to pre-fill fields for quick lookups
 - 🧭 Clickable **Google Maps links** for walking sections
-- **<+>** SBB brand styling with Nerd Font **icons** ([Nerd Font](https://www.nerdfonts.com/) recommended, Unicode fallback via `--no-nerdfont`)
+- ⇹  SBB brand **styling** with Nerd Font icons ([Nerd Font](https://www.nerdfonts.com/) recommended, Unicode fallback via `--no-nerdfont`)
 
 ## 📦 Install
 
