@@ -1,10 +1,10 @@
 # SBB-TUI
 
-TUI client for Switzerland's public transports timetables, inspidered by the SBB/CFF/FFS [app](https://www.sbb.ch/).
+TUI client for Switzerland's public transports timetables, inspired by the SBB/CFF/FFS [app](https://www.sbb.ch/).
 
 <img width="1382" height="1054" alt="Bildschirmfoto 2026-03-01 um 11 43 00" src="https://github.com/user-attachments/assets/f3600847-50ce-418b-b682-5249ee00ab6f" />
 
-## 🚀 Features
+## ✨ Features
 
 - 📍 **Any station**: search connections between any Swiss (and neighbouring) public transport stations
 - 🚆 **Any transport**: train, tram, bus, boat, cable cars (and even funiculars!)
@@ -12,22 +12,41 @@ TUI client for Switzerland's public transports timetables, inspidered by the SBB
 - ➡️ **Autocompletion** of station names
 - 🚩 **CLI flags** to pre-fill fields for quick lookups
 - 🧭 Clickable **Google Maps links** for walking sections
-- ⇹  SBB brand **styling** with Nerd Font icons ([Nerd Font](https://www.nerdfonts.com/) recommended, Unicode fallback via `--no-nerdfont`)
+- ⇹ SBB brand **styling** with Nerd Font icons ([Nerd Font](https://www.nerdfonts.com/) recommended, Unicode fallback via `--no-nerdfont`)
+
+## 📚 Documentation
+
+- [Install](#📦-install)
+- [Usage](#🚀-usage)
+- [Configuration](#⚙️-configuration)
+- [Options](#🚩-options)
+- [Why?](#❓-why)
+- [HELP WANTED!](#🍻-help-wanted)
 
 ## 📦 Install
 
+### Homebrew
+
 ```sh
-# homebrew
 brew install necrom4/tap/sbb-tui
-# go
-go install github.com/necrom4/sbb-tui
-# aur
-yay -S sbb-tui
 ```
 
-> or download your preferred executable from [Releases](https://github.com/Necrom4/sbb-tui/releases)
+### Go
 
-## Build from source
+```sh
+go install github.com/necrom4/sbb-tui
+```
+
+### AUR
+
+```sh
+yay -S sbb-tui # or equivalent AUR package manager
+```
+
+> [!NOTE]
+> Or download your preferred executable from [Releases](https://github.com/Necrom4/sbb-tui/releases) directly.
+
+### Build from source
 
 ```sh
 git clone https://github.com/necrom4/sbb-tui.git
@@ -46,6 +65,7 @@ go build
 
 Add your optional config at `$HOME/.config/sbb-tui/config.yaml`
 
+> [!TIP]
 > OS default config paths are also supported (such as `~/Library/Application Support/sbb-tui/config.yaml` in macOS)
 
 ```yaml
@@ -68,7 +88,7 @@ theme:
   logo:           "#FFFFFF"
 ```
 
-More **themes** can be found at [docs/themes.md](https://github.com/Necrom4/sbb-tui/blob/master/docs/themes.md)
+> More **themes** can be found at [`docs/themes.md`](https://github.com/Necrom4/sbb-tui/blob/master/docs/themes.md)
 
 ## 🚩 Options
 
@@ -96,10 +116,11 @@ Flags:
 ## 🍻 HELP WANTED!
 
 **SBB-TUI** is in constant improvement thanks to the work of many volunteers passionate about this little tool.
-This project is a very good playground for those who want to learn to collaborate in open source projects and improve the way they architecture their code and commit it. Wether you're a novice or a professional, don't be scared to hop on the train!
+This project is a very good playground for those who want to learn to collaborate in open source projects and improve the way they architecture their code and commit it. Whether you're a novice or a professional, don't be scared to hop on the train!
 
 There's plenty of [Issues](https://github.com/Necrom4/sbb-tui/issues) of different complexity levels, many tagged with `help wanted` or `good first issue`.
-So if you're up for the challenge, read [CONTRIBUTING.md](https://github.com/Necrom4/sbb-tui/blob/master/CONTRIBUTING.md), create your PR, and start coding!
+So if you're up for the challenge, read [`CONTRIBUTING.md`](https://github.com/Necrom4/sbb-tui/blob/master/CONTRIBUTING.md), create your PR, and start coding!
+
 ## Star History
 
 <a href="https://www.star-history.com/?repos=necrom4%2Fsbb-tui&type=date&legend=top-left">
