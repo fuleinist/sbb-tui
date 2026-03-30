@@ -320,7 +320,7 @@ func (m appModel) renderSimpleConnection(c model.Connection, index int, width in
 
 	bottomLinePadding := max(lineContentWidth-lipgloss.Width(platformInfo)-lipgloss.Width(duration), 1)
 
-	content := fmt.Sprintf("\n  %s %s %s  %s\n\n  %s%s%s%s%s%s%s%s\n\n  %s%s%v\n",
+	content := fmt.Sprintf("\n  %s %s %s  %s\n\n  %s%s%s%s%s  %s%s\n\n  %s%s%v\n",
 		vehicleIcon,
 		vehicleModel,
 		company,
@@ -330,7 +330,6 @@ func (m appModel) renderSimpleConnection(c model.Connection, index int, width in
 		departureDelay,
 		depGap,
 		stopsLine,
-		arrGap,
 		arrival,
 		arrivalDelay,
 		platformInfo,
