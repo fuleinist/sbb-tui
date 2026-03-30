@@ -1,3 +1,10 @@
+## [1.11.6](https://github.com/Necrom4/sbb-tui/compare/v1.11.5...v1.11.6) (2026-03-30)
+
+
+### Bug Fixes
+
+* **ui:** use MacOS displayable Unicode icon for prompt ([4a3eea2](https://github.com/Necrom4/sbb-tui/commit/4a3eea2b2c24658fadbcf47cd1da41b33eba1f4c))
+
 ## [1.11.5](https://github.com/Necrom4/sbb-tui/compare/v1.11.4...v1.11.5) (2026-03-30)
 
 
