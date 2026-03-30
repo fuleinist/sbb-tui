@@ -29,7 +29,7 @@ type fileConfig struct {
 // Theme defines color values for the TUI appearance.
 type Theme struct {
 	Text           string `yaml:"text"`
-	ErrorText      string `yaml:"ErrorText"`
+	ErrorText      string `yaml:"errorText"`
 	GhostText      string `yaml:"ghostText"`
 	ActiveBorder   string `yaml:"activeBorder"`
 	InactiveBorder string `yaml:"inactiveBorder"`
