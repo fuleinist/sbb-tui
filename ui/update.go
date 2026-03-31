@@ -7,6 +7,7 @@ import (
 	"unicode"
 	"unicode/utf8"
 
+	"github.com/charmbracelet/bubbles/key"
 	tea "github.com/charmbracelet/bubbletea"
 	"golang.org/x/text/unicode/norm"
 
@@ -98,6 +99,25 @@ func (m appModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				}
 			}
 			return m, tea.Batch(cmds...)
+
+		// Disable autocompletion if cursor is not at the end of the stirng.
+		case "right":
+			active := m.headerOrder[m.tabIndex]
+
+			if active.kind == kindInput {
+				input := m.inputs[active.index]
+
+				if input.Position() < len(input.Value()) {
+					original := input.KeyMap.AcceptSuggestion
+					input.KeyMap.AcceptSuggestion = key.NewBinding() // empty binding
+
+					var cmd tea.Cmd
+					m.inputs[active.index], cmd = input.Update(msg)
+					m.inputs[active.index].KeyMap.AcceptSuggestion = original
+
+					return m, cmd
+				}
+			}
 
 		case "up":
 			if len(m.connections) > 0 && m.resultIndex > 0 {
