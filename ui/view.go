@@ -168,9 +168,9 @@ func (m appModel) renderResults() string {
 }
 
 func (m appModel) renderStartScreen() string {
-	logo := sbbLogoNerdFont
-	if m.noNerdFont {
-		logo = sbbLogo
+	logo := sbbLogo
+	if m.nerdFont {
+		logo = sbbLogoNerdFont
 	}
 	logo = strings.TrimRight(logo, "\n")
 

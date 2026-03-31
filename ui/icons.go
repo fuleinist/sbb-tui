@@ -27,7 +27,7 @@ type iconSet struct {
 	keyEsc    string
 }
 
-func newIconSet(noNerdFont bool) iconSet {
+func newIconSet(nerdFont bool) iconSet {
 	icons := iconSet{
 		// Shared symbols
 		platform: "Pl.",
@@ -48,15 +48,7 @@ func newIconSet(noNerdFont bool) iconSet {
 		keyEsc:   "⎋",
 	}
 
-	if noNerdFont {
-		icons.arrival = "⤙"
-		icons.departure = "⤚"
-		icons.search = "⌕"
-		icons.swap = "↔"
-		icons.vehicle = "◇"
-		icons.walk = "walk:"
-		icons.prompt = "⏵ "
-	} else {
+	if nerdFont {
 		icons.arrival = "󰗔"
 		icons.departure = ""
 		icons.search = ""
@@ -64,6 +56,14 @@ func newIconSet(noNerdFont bool) iconSet {
 		icons.vehicle = ""
 		icons.walk = ""
 		icons.prompt = " "
+	} else {
+		icons.arrival = "⤙"
+		icons.departure = "⤚"
+		icons.search = "⌕"
+		icons.swap = "↔"
+		icons.vehicle = "◇"
+		icons.walk = "walk:"
+		icons.prompt = "⏵ "
 	}
 
 	return icons

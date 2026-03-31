@@ -17,7 +17,7 @@ type Config struct {
 	Date           string
 	Time           string
 	IsArrivalTime  bool
-	NoNerdFont     bool
+	NerdFont       bool
 	Theme          Theme
 	CurrentVersion string
 }

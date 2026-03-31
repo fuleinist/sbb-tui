@@ -65,7 +65,7 @@ type appModel struct {
 	inputs         []textinput.Model
 	icons          iconSet
 	styles         styles
-	noNerdFont     bool
+	nerdFont       bool
 	isArrivalTime  bool
 	connections    []model.Connection
 	loading        bool
@@ -91,9 +91,9 @@ func NewModel(cfg config.Config) appModel {
 			{kindButton, "search", -1},
 		},
 		inputs:         make([]textinput.Model, 4),
-		icons:          newIconSet(cfg.NoNerdFont),
+		icons:          newIconSet(cfg.NerdFont),
 		styles:         newStyles(cfg.Theme),
-		noNerdFont:     cfg.NoNerdFont,
+		nerdFont:       cfg.NerdFont,
 		isArrivalTime:  cfg.IsArrivalTime,
 		currentVersion: cfg.CurrentVersion,
 	}

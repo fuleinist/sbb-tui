@@ -20,7 +20,7 @@ func main() {
 	date := flag.String("date", "", "Pre-fill date (DD.MM.YYYY)")
 	timeStr := flag.String("time", "", "Pre-fill time (HH:MM)")
 	arrival := flag.Bool("arrival", false, "Use arrival time instead of departure time")
-	noNerdFont := flag.Bool("no-nerdfont", false, "Use Unicode fallback icons instead of Nerd Font icons")
+	nerdFont := flag.Bool("nerd-font", true, "Use Nerd Font icons (disable with --nerd-font=false)")
 	showVersion := flag.BoolP("version", "v", false, "Print version and exit")
 
 	// --help
@@ -52,7 +52,7 @@ func main() {
 		Date:           *date,
 		Time:           *timeStr,
 		IsArrivalTime:  *arrival,
-		NoNerdFont:     *noNerdFont,
+		NerdFont:       *nerdFont,
 		Theme:          theme,
 		CurrentVersion: version,
 	}
