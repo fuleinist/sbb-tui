@@ -2,7 +2,8 @@
 
 TUI client for Switzerland's public transports timetables, inspired by the SBB/CFF/FFS [app](https://www.sbb.ch/).
 
-<img width="1382" height="1054" alt="Bildschirmfoto 2026-03-01 um 11 43 00" src="https://github.com/user-attachments/assets/f3600847-50ce-418b-b682-5249ee00ab6f" />
+![demo](https://github.com/user-attachments/assets/fd8e5f24-e862-4d5e-bfa0-64017be8f959)
+
 
 ## ✨ Features
 
