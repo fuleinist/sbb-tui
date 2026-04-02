@@ -196,6 +196,10 @@ func (m *appModel) updateInputs(msg tea.Msg) tea.Cmd {
 			}
 
 			// date/time input: auto-insert `.`/`:` and block non existent values
+			// block typing from the middle to keep delimiters in place
+			if len(s) == 1 && s >= "0" && s <= "9" && t.Position() < len(val) {
+				return nil
+			}
 			if len(s) == 1 && s >= "0" && s <= "9" {
 				switch len(val) {
 				case 0:
@@ -249,6 +253,10 @@ func (m *appModel) updateInputs(msg tea.Msg) tea.Cmd {
 				return nil
 			}
 
+			// block typing from the middle to keep delimiters in place
+			if len(s) == 1 && s >= "0" && s <= "9" && t.Position() < len(val) {
+				return nil
+			}
 			if len(s) == 1 && s >= "0" && s <= "9" {
 				switch len(val) {
 				case 0:
