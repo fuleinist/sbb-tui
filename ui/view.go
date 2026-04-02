@@ -120,15 +120,24 @@ func (m appModel) renderVersionBadge(availableWidth int) string {
 	}
 
 	if m.newerVersion != "" {
-		latestLink := renderLink(m.newerVersion, latestReleaseURL)
-		updateNotice := m.styles.warning.Render(fmt.Sprintf("(latest: %s)", latestLink))
-		full := fmt.Sprintf("%s %s %s", appName, m.currentVersion, updateNotice)
+		full := fmt.Sprintf(
+			"%s %s %s %s %s",
+			m.styles.text.Render(appName),
+			m.styles.ghostText.Render(m.currentVersion),
+			m.styles.text.Render("•"),
+			m.styles.warning.Render("latest:"),
+			m.styles.warning.Render(renderLink(m.newerVersion, latestReleaseURL)),
+		)
 		if lipgloss.Width(full)+minGap <= availableWidth {
 			return full
 		}
 	}
 
-	short := appName + " " + m.currentVersion
+	short := fmt.Sprintf(
+		"%s %s",
+		m.styles.text.Render(appName),
+		m.styles.ghostText.Render(m.currentVersion))
+
 	if lipgloss.Width(short)+minGap <= availableWidth {
 		return short
 	}
@@ -145,7 +154,7 @@ func (m appModel) renderFooter() string {
 	}
 
 	gap := m.width - lipgloss.Width(helpBar) - lipgloss.Width(versionBadge)
-	return helpBar + strings.Repeat(" ", gap) + m.styles.ghostText.Render(versionBadge)
+	return helpBar + strings.Repeat(" ", gap) + versionBadge
 }
 
 func (m appModel) renderHeaderItem(idx int) string {
