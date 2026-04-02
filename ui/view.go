@@ -16,6 +16,8 @@ var (
 
 	//go:embed sbb-logo-nerdfont.txt
 	sbbLogoNerdFont string
+
+	latestReleaseURL = "https://github.com/Necrom4/sbb-tui/releases/latest"
 )
 
 // View implements tea.Model.
@@ -36,12 +38,12 @@ func (m appModel) View() string {
 			Render(m.renderDetailedResult()),
 	)
 
-	helpBar := m.renderHelpBar()
+	footer := m.renderFooter()
 
 	return lipgloss.JoinVertical(lipgloss.Left,
 		header,
 		results,
-		helpBar,
+		footer,
 	)
 }
 
@@ -86,8 +88,10 @@ func (m appModel) renderHeader() string {
 	return lipgloss.JoinHorizontal(lipgloss.Top, headerItems...)
 }
 
+// Footer rendering
+
 func (m appModel) renderHelpBar() string {
-	keys := []struct{ key, desc string }{
+	bindings := []struct{ key, desc string }{
 		{m.icons.keyTab, "navigate"},
 		{m.icons.keyEnter, "search"},
 		{m.icons.keySpace, "toggle"},
@@ -97,12 +101,60 @@ func (m appModel) renderHelpBar() string {
 		{m.icons.keyEsc, "quit"},
 	}
 
-	var parts []string
-	for _, k := range keys {
-		parts = append(parts, m.styles.helpKey.Render(k.key)+" "+m.styles.helpDesc.Render(k.desc))
+	parts := make([]string, len(bindings))
+	for i, b := range bindings {
+		parts[i] = m.styles.helpKey.Render(b.key) + " " + m.styles.helpDesc.Render(b.desc)
 	}
 
 	return " " + strings.Join(parts, "   ")
+}
+
+func (m appModel) renderVersionBadge(availableWidth int) string {
+	const (
+		appName = "SBB-TUI"
+		minGap  = 2
+	)
+
+	if availableWidth <= minGap {
+		return ""
+	}
+
+	if m.newerVersion != "" {
+		full := fmt.Sprintf(
+			"%s %s %s%s%s",
+			m.styles.text.Render(appName),
+			m.styles.textMuted.Render(m.currentVersion),
+			m.styles.warning.Render("(latest: "),
+			m.styles.warning.Render(renderLink(m.newerVersion, latestReleaseURL)),
+			m.styles.warning.Render(")"),
+		)
+		if lipgloss.Width(full)+minGap <= availableWidth {
+			return full
+		}
+	}
+
+	short := fmt.Sprintf(
+		"%s %s",
+		m.styles.text.Render(appName),
+		m.styles.textMuted.Render(m.currentVersion))
+
+	if lipgloss.Width(short)+minGap <= availableWidth {
+		return short
+	}
+
+	return ""
+}
+
+func (m appModel) renderFooter() string {
+	helpBar := m.renderHelpBar()
+	versionBadge := m.renderVersionBadge(m.width - lipgloss.Width(helpBar))
+
+	if versionBadge == "" {
+		return helpBar
+	}
+
+	gap := m.width - lipgloss.Width(helpBar) - lipgloss.Width(versionBadge)
+	return helpBar + strings.Repeat(" ", gap) + versionBadge
 }
 
 func (m appModel) renderHeaderItem(idx int) string {
@@ -176,14 +228,13 @@ func (m appModel) renderStartScreen() string {
 
 	coloredLogo := m.styles.logo.Render(logo)
 
-	text := m.styles.ghostText.Render("Enter stations above to see timetables")
+	text := m.styles.textMuted.Render("Enter stations above to see timetables")
 
 	block := lipgloss.JoinVertical(lipgloss.Center, text, "", coloredLogo)
 
 	if m.newerVersion != "" {
-		url := "https://github.com/Necrom4/sbb-tui/releases/latest"
-		link := renderLink(m.newerVersion, url)
-		label := fmt.Sprintf("Update available: %s", link)
+		latestVersion := renderLink(m.newerVersion, latestReleaseURL)
+		label := fmt.Sprintf("Update available: %s", latestVersion)
 		block = lipgloss.JoinVertical(lipgloss.Center, block, "", m.styles.active.Render(label))
 	}
 
