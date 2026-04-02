@@ -121,12 +121,12 @@ func (m appModel) renderVersionBadge(availableWidth int) string {
 
 	if m.newerVersion != "" {
 		full := fmt.Sprintf(
-			"%s %s %s %s %s",
+			"%s %s %s%s%s",
 			m.styles.text.Render(appName),
 			m.styles.textMuted.Render(m.currentVersion),
-			m.styles.text.Render("•"),
-			m.styles.warning.Render("latest:"),
+			m.styles.warning.Render("(latest: "),
 			m.styles.warning.Render(renderLink(m.newerVersion, latestReleaseURL)),
+			m.styles.warning.Render(")"),
 		)
 		if lipgloss.Width(full)+minGap <= availableWidth {
 			return full
