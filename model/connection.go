@@ -32,7 +32,7 @@ func (t Timestamp) Sub(other Timestamp) time.Duration {
 // Local overrides time.Time.Local() to return the timestamp in Swiss time
 // (CET/CEST, Europe/Zurich) instead of the system's local timezone.
 func (t Timestamp) Local() time.Time {
-	return t.Time.In(SwissLocation)
+	return t.In(SwissLocation)
 }
 
 // UnmarshalJSON parses the SBB API date format into a Timestamp.
