@@ -1,3 +1,17 @@
+# [1.13.0](https://github.com/Necrom4/sbb-tui/compare/v1.12.3...v1.13.0) (2026-04-02)
+
+
+### Features
+
+* display current version in bottom right ([d2297f5](https://github.com/Necrom4/sbb-tui/commit/d2297f5ce4585cb279da8bfd751ef64662ccb2cd))
+* display latest version in bottom right ([f4bf60b](https://github.com/Necrom4/sbb-tui/commit/f4bf60b319d1ba5928a90c3ab722585831ed1f6a))
+* hide current and latest version depending on terminal width ([0a6cc4b](https://github.com/Necrom4/sbb-tui/commit/0a6cc4b64ab3411de9c74a902644bc15e06192eb))
+
+
+### Reverts
+
+* **ui:** versionBadge style back to original ([b76e771](https://github.com/Necrom4/sbb-tui/commit/b76e771d040f4d110dbc68acda9a1e806cea9bab))
+
 ## [1.12.3](https://github.com/Necrom4/sbb-tui/compare/v1.12.2...v1.12.3) (2026-04-02)
 
 
