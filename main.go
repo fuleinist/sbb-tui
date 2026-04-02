@@ -18,10 +18,10 @@ var version = "dev"
 func main() {
 	from := flag.String("from", "", "Pre-fill departure station")
 	to := flag.String("to", "", "Pre-fill arrival station")
-	date := flag.String("date", "", "Pre-fill date (DD.MM.YYYY)")
-	timeStr := flag.String("time", "", "Pre-fill time (HH:MM)")
-	arrival := flag.Bool("arrival", false, "Use arrival time instead of departure time")
-	flag.Bool("nerdfont", true, "Use Nerd Font icons (disable with --nerdfont=false)")
+	date := flag.String("date", "", "Pre-fill date [DD.MM.YYYY]")
+	time := flag.String("time", "", "Pre-fill time [HH:MM]")
+	arrival := flag.Bool("arrival", false, "Set date/time as arrival instead of departure time")
+	flag.Bool("nerdfont", true, "Use Nerd Font icons")
 	showVersion := flag.BoolP("version", "v", false, "Print version and exit")
 
 	// --help
@@ -35,6 +35,7 @@ func main() {
 		flag.PrintDefaults()
 	}
 
+	flag.CommandLine.SortFlags = false
 	flag.Parse()
 
 	cfg, err := config.LoadConfig()
@@ -51,7 +52,7 @@ func main() {
 	cfg.From = *from
 	cfg.To = *to
 	cfg.Date = *date
-	cfg.Time = *timeStr
+	cfg.Time = *time
 	cfg.IsArrivalTime = *arrival
 	cfg.CurrentVersion = version
 
