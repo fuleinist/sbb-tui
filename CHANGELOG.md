@@ -1,3 +1,11 @@
+## [1.13.1](https://github.com/Necrom4/sbb-tui/compare/v1.13.0...v1.13.1) (2026-04-03)
+
+
+### Bug Fixes
+
+* block mid-string input in date/time fields to preserve delimiters ([620fa13](https://github.com/Necrom4/sbb-tui/commit/620fa1311f44f3a7c9b42a16fc7753c3ffc77d52)), closes [#38](https://github.com/Necrom4/sbb-tui/issues/38)
+* rework date/time input to handle editing from any cursor position ([c03d586](https://github.com/Necrom4/sbb-tui/commit/c03d586b3668710236d3cc33486ee3c63002953a)), closes [#38](https://github.com/Necrom4/sbb-tui/issues/38)
+
 # [1.13.0](https://github.com/Necrom4/sbb-tui/compare/v1.12.3...v1.13.0) (2026-04-02)
 
 
