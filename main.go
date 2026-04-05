@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"time"
 	_ "time/tzdata" // embed timezone database so Europe/Zurich always resolves
 
 	tea "github.com/charmbracelet/bubbletea"
@@ -19,7 +20,7 @@ func main() {
 	from := flag.String("from", "", "Pre-fill departure station")
 	to := flag.String("to", "", "Pre-fill arrival station")
 	date := flag.String("date", "", "Pre-fill date [DD.MM.YYYY]")
-	time := flag.String("time", "", "Pre-fill time [HH:MM]")
+	timeStr := flag.String("time", "", "Pre-fill time [HH:MM]")
 	arrival := flag.Bool("arrival", false, "Set date/time as arrival instead of departure time")
 	flag.Bool("nerdfont", true, "Use Nerd Font icons")
 	showVersion := flag.BoolP("version", "v", false, "Print version and exit")
@@ -51,8 +52,20 @@ func main() {
 	// CLI flags override config file values.
 	cfg.From = *from
 	cfg.To = *to
+	if *date != "" {
+		if _, err := time.Parse("02.01.2006", *date); err != nil {
+			fmt.Fprintf(os.Stderr, "error: %v\n", err)
+			os.Exit(0)
+		}
+	}
 	cfg.Date = *date
-	cfg.Time = *time
+	if *timeStr != "" {
+		if _, err := time.Parse("15:04", *timeStr); err != nil {
+			fmt.Fprintf(os.Stderr, "error: %v\n", err)
+			os.Exit(0)
+		}
+	}
+	cfg.Time = *timeStr
 	cfg.IsArrivalTime = *arrival
 	cfg.CurrentVersion = version
 
