@@ -1,3 +1,10 @@
+## [1.13.3](https://github.com/Necrom4/sbb-tui/compare/v1.13.2...v1.13.3) (2026-04-05)
+
+
+### Bug Fixes
+
+* **cli:** throw error when date/time flags are not correctly formatted ([499fe0f](https://github.com/Necrom4/sbb-tui/commit/499fe0fbf6c4265b8f54cd021705add8a1270e21))
+
 ## [1.13.2](https://github.com/Necrom4/sbb-tui/compare/v1.13.1...v1.13.2) (2026-04-04)
 
 
