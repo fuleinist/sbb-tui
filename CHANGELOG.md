@@ -1,3 +1,11 @@
+## [1.13.4](https://github.com/Necrom4/sbb-tui/compare/v1.13.3...v1.13.4) (2026-04-07)
+
+
+### Bug Fixes
+
+* **ui:** use automatic light/dark text color value ([929f40a](https://github.com/Necrom4/sbb-tui/commit/929f40a87227c9a6eb41c46e582b3777c5daffd3)), closes [#52](https://github.com/Necrom4/sbb-tui/issues/52)
+* **update:** autocomplete even after multi-byte characters ([9b448e5](https://github.com/Necrom4/sbb-tui/commit/9b448e54eccde25a7155c4b637bb05531f45d1d7)), closes [#51](https://github.com/Necrom4/sbb-tui/issues/51)
+
 ## [1.13.3](https://github.com/Necrom4/sbb-tui/compare/v1.13.2...v1.13.3) (2026-04-05)
 
 
