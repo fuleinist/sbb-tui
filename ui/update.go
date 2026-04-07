@@ -108,7 +108,7 @@ func (m appModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			if active.kind == kindInput {
 				input := m.inputs[active.index]
 
-				if input.Position() < len(input.Value()) {
+				if input.Position() < len([]rune(input.Value())) {
 					original := input.KeyMap.AcceptSuggestion
 					input.KeyMap.AcceptSuggestion = key.NewBinding() // empty binding
 
