@@ -18,14 +18,16 @@ type Config struct {
 	Time           string
 	IsArrivalTime  bool
 	NerdFont       bool
+	CursorBlink    *bool
 	Theme          Theme
 	CurrentVersion string
 }
 
 // UIConfig groups all UI-related settings.
 type UIConfig struct {
-	NerdFont *bool `yaml:"nerdfont"`
-	Theme    Theme `yaml:"theme"`
+	NerdFont    *bool `yaml:"nerdfont"`
+	CursorBlink *bool `yaml:"cursorBlink"`
+	Theme       Theme `yaml:"theme"`
 }
 
 type fileConfig struct {
@@ -118,8 +120,9 @@ func loadFile() (fileConfig, error) {
 // LoadConfig reads the config file and returns a Config with defaults merged.
 func LoadConfig() (Config, error) {
 	result := Config{
-		NerdFont: true,
-		Theme:    DefaultTheme(),
+		NerdFont:    true,
+		CursorBlink: boolPtr(true),
+		Theme:       DefaultTheme(),
 	}
 
 	fc, err := loadFile()
@@ -129,6 +132,9 @@ func LoadConfig() (Config, error) {
 
 	if fc.UI.NerdFont != nil {
 		result.NerdFont = *fc.UI.NerdFont
+	}
+	if fc.UI.CursorBlink != nil {
+		result.CursorBlink = fc.UI.CursorBlink
 	}
 
 	// NOTE: update mergeTheme when adding new Theme fields.
@@ -182,3 +188,5 @@ func mergeTheme(base Theme, override Theme) Theme {
 
 	return base
 }
+
+func boolPtr(b bool) *bool { return &b }

@@ -22,7 +22,8 @@ func main() {
 	date := flag.String("date", "", "Pre-fill date [DD.MM.YYYY]")
 	timeStr := flag.String("time", "", "Pre-fill time [HH:MM]")
 	arrival := flag.Bool("arrival", false, "Set date/time as arrival instead of departure time")
-	flag.Bool("nerdfont", true, "Use Nerd Font icons")
+	nerdFont := flag.Bool("nerdfont", true, "Use Nerd Font icons")
+	noBlink := flag.Bool("no-blink", false, "Disable cursor blinking")
 	showVersion := flag.BoolP("version", "v", false, "Print version and exit")
 
 	// --help
@@ -69,9 +70,9 @@ func main() {
 	cfg.IsArrivalTime = *arrival
 	cfg.CurrentVersion = version
 
-	if flag.CommandLine.Changed("nerdfont") {
-		nf, _ := flag.CommandLine.GetBool("nerdfont")
-		cfg.NerdFont = nf
+	cfg.NerdFont = *nerdFont
+	if *noBlink {
+		cfg.CursorBlink = boolPtr(false)
 	}
 
 	m := ui.NewModel(cfg)
@@ -81,3 +82,5 @@ func main() {
 		os.Exit(1)
 	}
 }
+
+func boolPtr(b bool) *bool { return &b }

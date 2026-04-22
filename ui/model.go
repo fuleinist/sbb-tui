@@ -66,6 +66,7 @@ type appModel struct {
 	icons          iconSet
 	styles         styles
 	nerdFont       bool
+	cursorBlink    bool
 	isArrivalTime  bool
 	connections    []model.Connection
 	loading        bool
@@ -94,6 +95,7 @@ func NewModel(cfg config.Config) appModel {
 		icons:          newIconSet(cfg.NerdFont),
 		styles:         newStyles(cfg.Theme),
 		nerdFont:       cfg.NerdFont,
+		cursorBlink:    derefBool(cfg.CursorBlink, true),
 		isArrivalTime:  cfg.IsArrivalTime,
 		currentVersion: cfg.CurrentVersion,
 	}
@@ -152,7 +154,12 @@ func NewModel(cfg config.Config) appModel {
 
 // Init implements tea.Model.
 func (m appModel) Init() tea.Cmd {
-	return tea.Batch(textinput.Blink, checkVersionCmd(m.currentVersion))
+	var cmds []tea.Cmd
+	if m.cursorBlink {
+		cmds = append(cmds, textinput.Blink)
+	}
+	cmds = append(cmds, checkVersionCmd(m.currentVersion))
+	return tea.Batch(cmds...)
 }
 
 func checkVersionCmd(current string) tea.Cmd {
@@ -183,4 +190,12 @@ func capitalise(s string) string {
 		r[0] -= 'a' - 'A'
 	}
 	return string(r)
+}
+
+// derefBool safely dereferences a bool pointer, returning default if nil.
+func derefBool(b *bool, def bool) bool {
+	if b == nil {
+		return def
+	}
+	return *b
 }
